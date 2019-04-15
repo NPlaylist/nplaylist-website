@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using NPlaylist.Models.Entity;
 
 namespace NPlaylist.Data
 {
@@ -12,5 +10,8 @@ namespace NPlaylist.Data
             : base(options)
         {
         }
+
+        public DbSet<Audio> Audios { get; set; }
+        public DbSet<AudioMeta> AudioMetas { get; set; }
     }
 }

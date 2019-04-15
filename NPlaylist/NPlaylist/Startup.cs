@@ -14,6 +14,7 @@ using NPlaylist.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using NPlaylist.Services;
 
 namespace NPlaylist
 {
@@ -51,6 +52,7 @@ namespace NPlaylist
                 options.Password.RequireUppercase = false;
             });
 
+            services.AddTransient<IAudioUploadService, AudioUploadService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

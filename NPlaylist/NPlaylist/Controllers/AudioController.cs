@@ -1,17 +1,21 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NPlaylist.Services;
+using NPlaylist.DTOs;
+using NPlaylist.Services.AudioService;
+using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NPlaylist.Controllers
 {
+    [Authorize]
     public class AudioController : Controller
     {
-        private readonly IAudioUploadService audioUploadService;
+        private readonly IAudioService _audioService;
 
-        public AudioController(IAudioUploadService audioUploadService)
+        public AudioController(IAudioService audioService)
         {
-            this.audioUploadService = audioUploadService;
+            _audioService = audioService;
         }
 
         public IActionResult Index()
@@ -26,11 +30,13 @@ namespace NPlaylist.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Upload(IFormFile uploadedFile)
+        public async Task<IActionResult> Upload(UploadedFileDto uploadedFileDto, CancellationToken ct)
         {
-            await audioUploadService.Upload(uploadedFile);
+            uploadedFileDto.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            return Redirect("");
+            await _audioService.Upload(uploadedFileDto, ct);
+
+            return RedirectToAction("Index");
         }
     }
 }

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -18,6 +18,10 @@
 
   <ItemGroup>
     <None Remove="ScaffoldingReadme.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NPlaylist.Infrastructure\NPlaylist.Infrastructure.csproj" />
   </ItemGroup>
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="http://json.schemastore.org/chrome-manifest" /></VisualStudio></ProjectExtensions>
 

@@ -14,6 +14,10 @@ using NPlaylist.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using NPlaylist.Infrastructure.Wrappers.DateTimeWrapper;
+using NPlaylist.Infrastructure.Wrappers.DirectoryWrapper;
+using NPlaylist.Infrastructure.Wrappers.GuidWrapper;
+using NPlaylist.Infrastructure.Wrappers.PathWrapper;
 
 namespace NPlaylist
 {
@@ -50,6 +54,11 @@ namespace NPlaylist
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
             });
+
+            services.AddScoped<IDateTimeWrapper, DateTimeWrapperImpl>();
+            services.AddScoped<IDirectoryWrapper, DirectoryWrapperImpl>();
+            services.AddScoped<IGuidWrapper, GuidWrapperImpl>();
+            services.AddScoped<IPathWrapper, PathWrapperImpl>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

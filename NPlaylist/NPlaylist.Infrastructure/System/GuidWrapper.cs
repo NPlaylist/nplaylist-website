@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace NPlaylist.Infrastructure.Wrappers.GuidWrapper
+namespace NPlaylist.Infrastructure.System
 {
-    public class GuidWrapperImpl : IGuidWrapper
+    public class GuidWrapper : IGuidWrapper
     {
         public Guid NewGuid()
         {

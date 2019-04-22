@@ -23,6 +23,10 @@
   <ItemGroup>
     <ProjectReference Include="..\NPlaylist.Infrastructure\NPlaylist.Infrastructure.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NPlaylist.Authentication\NPlaylist.Authentication.csproj" />
+    <ProjectReference Include="..\NPlaylist.Persistance\NPlaylist.Persistance.csproj" />
+  </ItemGroup>
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="http://json.schemastore.org/chrome-manifest" /></VisualStudio></ProjectExtensions>
 
 </Project>

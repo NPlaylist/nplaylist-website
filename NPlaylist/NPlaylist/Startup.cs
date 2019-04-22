@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NPlaylist.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -18,6 +11,8 @@ using NPlaylist.Infrastructure.Wrappers.DateTimeWrapper;
 using NPlaylist.Infrastructure.Wrappers.DirectoryWrapper;
 using NPlaylist.Infrastructure.Wrappers.GuidWrapper;
 using NPlaylist.Infrastructure.Wrappers.PathWrapper;
+using NPlaylist.Authentication;
+using NPlaylist.Data;
 
 namespace NPlaylist
 {
@@ -41,11 +36,8 @@ namespace NPlaylist
                 new PhysicalFileProvider(
                     Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            ConfigureDbContexts(services);
 
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = false;
@@ -87,6 +79,14 @@ namespace NPlaylist
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        private void ConfigureDbContexts(IServiceCollection services)
+        {
+            services.AddDbContext<ApplicationDbContext>();
+            services.AddDbContext<AuthenticationDbContext>();
+            services.AddDefaultIdentity<IdentityUser>()
+                .AddEntityFrameworkStores<AuthenticationDbContext>();
         }
     }
 }

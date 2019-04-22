@@ -1,0 +1,8 @@
+# This script creates migrations and updates the database
+# Execute these commands in the project containing the target db context
+
+# ../NPlaylist/ - project where the db context is added (with Startup.cs)
+# <target db context> - the db context: e.g. ApplicationDbContext
+
+dotnet ef migrations add -v <migration name> -s ../NPlaylist/ --context <target db context>
+dotnet ef database update -s ../NPlaylist/ --context <target db context>

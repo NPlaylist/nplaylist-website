@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NPlaylist.Persistance.DbModels
+namespace NPlaylist.Persistence.DbModels
 {
     public class AudioMeta
     {

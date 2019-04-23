@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using NPlaylist.Persistance.DbModels;
+using NPlaylist.Persistence.DbModels;
 
-namespace NPlaylist.Persistance
+namespace NPlaylist.Persistence
 {
     public class ApplicationDbContext : DbContext
     {

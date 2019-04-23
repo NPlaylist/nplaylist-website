@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.156
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NPlaylist", "NPlaylist\NPlaylist.csproj", "{623E8331-03FC-46FD-AEF9-850A06C7E779}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPlaylist", "NPlaylist\NPlaylist.csproj", "{623E8331-03FC-46FD-AEF9-850A06C7E779}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NPlaylist.Infrastructure", "NPlaylist.Infrastructure\NPlaylist.Infrastructure.csproj", "{1273281D-EE85-4812-9A97-65C313DE3FC1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPlaylist.Business", "NPlaylist.Business\NPlaylist.Business.csproj", "{C5B4F259-1C52-40EB-B18D-0208F4985188}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NPlaylist.Persistance", "NPlaylist.Persistance\NPlaylist.Persistance.csproj", "{1B1791B9-8CD2-44F6-AC7E-9F0463F0CE88}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NPlaylist.Authentication", "NPlaylist.Authentication\NPlaylist.Authentication.csproj", "{B6E9A431-52B8-48CE-AC61-C1FFE793C75C}"
 EndProject
@@ -21,6 +19,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{90400670-D65A-42C1-8693-08FA963899D8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPlaylist.Tests", "Tests\NPlaylist.Tests\NPlaylist.Tests.csproj", "{8773600F-96D9-490C-909C-6ED9D6580568}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPlaylist.Persistence", "NPlaylist.Persistence\NPlaylist.Persistence.csproj", "{41E4F627-D18F-4521-941C-6CA00695FC40}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,10 +36,6 @@ Global
 		{1273281D-EE85-4812-9A97-65C313DE3FC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1273281D-EE85-4812-9A97-65C313DE3FC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1273281D-EE85-4812-9A97-65C313DE3FC1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1B1791B9-8CD2-44F6-AC7E-9F0463F0CE88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1B1791B9-8CD2-44F6-AC7E-9F0463F0CE88}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1B1791B9-8CD2-44F6-AC7E-9F0463F0CE88}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1B1791B9-8CD2-44F6-AC7E-9F0463F0CE88}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B6E9A431-52B8-48CE-AC61-C1FFE793C75C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B6E9A431-52B8-48CE-AC61-C1FFE793C75C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6E9A431-52B8-48CE-AC61-C1FFE793C75C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -52,6 +48,10 @@ Global
 		{C5B4F259-1C52-40EB-B18D-0208F4985188}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5B4F259-1C52-40EB-B18D-0208F4985188}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5B4F259-1C52-40EB-B18D-0208F4985188}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41E4F627-D18F-4521-941C-6CA00695FC40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41E4F627-D18F-4521-941C-6CA00695FC40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41E4F627-D18F-4521-941C-6CA00695FC40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41E4F627-D18F-4521-941C-6CA00695FC40}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

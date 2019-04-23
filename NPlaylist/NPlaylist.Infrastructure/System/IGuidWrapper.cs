@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NPlaylist.Infrastructure.Wrappers.GuidWrapper
+namespace NPlaylist.Infrastructure.System
 {
     public interface IGuidWrapper
     {

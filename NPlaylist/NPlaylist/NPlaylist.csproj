@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NPlaylist.Business\NPlaylist.Business.csproj" />
     <ProjectReference Include="..\NPlaylist.Infrastructure\NPlaylist.Infrastructure.csproj" />
   </ItemGroup>
   <ItemGroup>

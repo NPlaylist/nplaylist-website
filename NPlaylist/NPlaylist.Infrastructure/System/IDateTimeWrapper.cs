@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NPlaylist.Infrastructure.Wrappers.DateTimeWrapper
+namespace NPlaylist.Infrastructure.System
 {
     public interface IDateTimeWrapper
     {

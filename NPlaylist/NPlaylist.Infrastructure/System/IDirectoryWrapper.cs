@@ -1,4 +1,4 @@
-﻿namespace NPlaylist.Infrastructure.Wrappers.DirectoryWrapper
+﻿namespace NPlaylist.Infrastructure.System
 {
     public interface IDirectoryWrapper
     {

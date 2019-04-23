@@ -1,8 +1,8 @@
 ﻿using System.IO;
 
-namespace NPlaylist.Infrastructure.Wrappers.DirectoryWrapper
+namespace NPlaylist.Infrastructure.System
 {
-    public class DirectoryWrapperImpl : IDirectoryWrapper
+    public class DirectoryWrapper : IDirectoryWrapper
     {
         public void CreateDirectory(string path)
         {

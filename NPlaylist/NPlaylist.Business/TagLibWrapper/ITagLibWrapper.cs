@@ -1,6 +1,6 @@
 ﻿using TagLib;
 
-namespace NPlaylist.Business.TagLib
+namespace NPlaylist.Business.TagLibWrapper
 {
     public interface ITagLibWrapper
     {

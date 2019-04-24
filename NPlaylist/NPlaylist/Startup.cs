@@ -11,6 +11,7 @@ using System.IO;
 using AutoMapper;
 using NPlaylist.Business.TagLibWrapper;
 using NPlaylist.Persistence;
+using NPlaylist.Services.AudioService;
 
 namespace NPlaylist
 {
@@ -76,6 +77,8 @@ namespace NPlaylist
             services.AddScoped<IDirectoryWrapper, DirectoryWrapper>();
             services.AddScoped<IGuidWrapper, GuidWrapper>();
             services.AddScoped<IPathWrapper, PathWrapper>();
+
+            services.AddScoped<IAudioService, AudioServiceImpl>();
 
             services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

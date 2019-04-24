@@ -9,7 +9,7 @@ using NPlaylist.Authentication;
 using NPlaylist.Business.TagLib;
 using NPlaylist.Infrastructure.System;
 using System.IO;
-using NPlaylist.Persistance;
+using NPlaylist.Persistence;
 
 namespace NPlaylist
 {

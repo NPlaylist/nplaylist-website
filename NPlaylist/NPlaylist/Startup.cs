@@ -6,9 +6,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using NPlaylist.Authentication;
-using NPlaylist.Business.TagLib;
 using NPlaylist.Infrastructure.System;
 using System.IO;
+using NPlaylist.Business.TagLibWrapper;
 using NPlaylist.Persistence;
 
 namespace NPlaylist

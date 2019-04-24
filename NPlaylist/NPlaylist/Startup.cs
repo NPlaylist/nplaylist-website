@@ -11,6 +11,7 @@ using System.IO;
 using AutoMapper;
 using NPlaylist.Business.TagLibWrapper;
 using NPlaylist.Persistence;
+using NPlaylist.Persistence.AudioEntries;
 using NPlaylist.Services.AudioService;
 
 namespace NPlaylist
@@ -78,6 +79,7 @@ namespace NPlaylist
             services.AddScoped<IGuidWrapper, GuidWrapper>();
             services.AddScoped<IPathWrapper, PathWrapper>();
 
+            services.AddScoped<IAudioEntriesRepository, SqlAudioEntriesRepository>();
             services.AddScoped<IAudioService, AudioServiceImpl>();
 
             services.AddAutoMapper();

@@ -8,4 +8,8 @@
     <PackageReference Include="TagLibSharp" Version="2.2.0-beta" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\NPlaylist.Persistence\NPlaylist.Persistence.csproj" />
+  </ItemGroup>
+
 </Project>

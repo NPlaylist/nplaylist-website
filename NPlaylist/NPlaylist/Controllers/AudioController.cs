@@ -17,7 +17,7 @@ namespace NPlaylist.Controllers
                     Extension = "mp3",
                     FullName = "Foo - Bar",
                     Publisher = "Baz",
-                    Created = DateTime.Now
+                    UtcCreatedTime = DateTime.Now
                 }
             };
             return View(entries);

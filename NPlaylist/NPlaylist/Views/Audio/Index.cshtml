@@ -23,7 +23,7 @@
                     @Html.DisplayNameFor(model => model.Publisher)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Created)
+                    @Html.DisplayNameFor(model => model.UtcCreatedTime)
                 </th>
                 <th>Actions</th>
             </tr>
@@ -42,7 +42,7 @@
                         @Html.DisplayFor(modelItem => item.Publisher)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Created)
+                        @Html.DisplayFor(modelItem => item.UtcCreatedTime)
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

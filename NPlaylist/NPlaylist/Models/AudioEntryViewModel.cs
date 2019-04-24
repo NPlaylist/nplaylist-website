@@ -10,6 +10,6 @@ namespace NPlaylist.Models
         public string FullName { get; set; }
         public string Extension { get; set; }
         public string Publisher { get; set; }
-        public DateTime Created { get; set; }
+        public DateTime UtcCreatedTime { get; set; }
     }
 }

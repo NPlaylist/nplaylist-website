@@ -8,6 +8,7 @@ using Microsoft.Extensions.FileProviders;
 using NPlaylist.Authentication;
 using NPlaylist.Infrastructure.System;
 using System.IO;
+using AutoMapper;
 using NPlaylist.Business.TagLibWrapper;
 using NPlaylist.Persistence;
 
@@ -76,6 +77,7 @@ namespace NPlaylist
             services.AddScoped<IGuidWrapper, GuidWrapper>();
             services.AddScoped<IPathWrapper, PathWrapper>();
 
+            services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
         private void ConfigureDbContexts(IServiceCollection services)

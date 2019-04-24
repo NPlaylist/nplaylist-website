@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace NPlaylist.Persistance.Migrations
+namespace NPlaylist.Persistence.Migrations
 {
     public partial class InitialCreate : Migration
     {
@@ -27,6 +27,7 @@ namespace NPlaylist.Persistance.Migrations
                 {
                     AudioId = table.Column<Guid>(nullable: false),
                     OwnerId = table.Column<Guid>(nullable: false),
+                    UtcCreatedTime = table.Column<DateTime>(nullable: false),
                     Path = table.Column<string>(nullable: true),
                     MetaAudioMetaId = table.Column<Guid>(nullable: true)
                 },

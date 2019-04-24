@@ -6,7 +6,7 @@ namespace NPlaylist.Persistence.DbModels
     {
         public Guid AudioId { get; set; }
         public Guid OwnerId { get; set; }
-        public DateTime UtcCreatedTime { get; }
+        public DateTime UtcCreatedTime { get; set; }
         public string Path { get; set; }
         public AudioMeta Meta { get; set; }
     }

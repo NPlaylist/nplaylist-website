@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NPlaylist.Persistence;
 
-namespace NPlaylist.Persistance.Migrations
+namespace NPlaylist.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -19,7 +19,7 @@ namespace NPlaylist.Persistance.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("NPlaylist.Data.DbModels.Audio", b =>
+            modelBuilder.Entity("NPlaylist.Persistence.DbModels.Audio", b =>
                 {
                     b.Property<Guid>("AudioId")
                         .ValueGeneratedOnAdd();
@@ -30,6 +30,8 @@ namespace NPlaylist.Persistance.Migrations
 
                     b.Property<string>("Path");
 
+                    b.Property<DateTime>("UtcCreatedTime");
+
                     b.HasKey("AudioId");
 
                     b.HasIndex("MetaAudioMetaId");
@@ -37,7 +39,7 @@ namespace NPlaylist.Persistance.Migrations
                     b.ToTable("AudioEntries");
                 });
 
-            modelBuilder.Entity("NPlaylist.Data.DbModels.AudioMeta", b =>
+            modelBuilder.Entity("NPlaylist.Persistence.DbModels.AudioMeta", b =>
                 {
                     b.Property<Guid>("AudioMetaId")
                         .ValueGeneratedOnAdd();
@@ -53,9 +55,9 @@ namespace NPlaylist.Persistance.Migrations
                     b.ToTable("AudioMetaEntries");
                 });
 
-            modelBuilder.Entity("NPlaylist.Data.DbModels.Audio", b =>
+            modelBuilder.Entity("NPlaylist.Persistence.DbModels.Audio", b =>
                 {
-                    b.HasOne("NPlaylist.Data.DbModels.AudioMeta", "Meta")
+                    b.HasOne("NPlaylist.Persistence.DbModels.AudioMeta", "Meta")
                         .WithMany()
                         .HasForeignKey("MetaAudioMetaId");
                 });

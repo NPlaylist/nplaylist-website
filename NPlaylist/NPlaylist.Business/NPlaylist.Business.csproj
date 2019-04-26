@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NPlaylist.Infrastructure\NPlaylist.Infrastructure.csproj" />
     <ProjectReference Include="..\NPlaylist.Persistence\NPlaylist.Persistence.csproj" />
   </ItemGroup>
 

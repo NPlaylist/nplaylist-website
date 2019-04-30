@@ -1,0 +1,40 @@
+﻿@model NPlaylist.Models.Audio.AudioViewModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Audio</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Meta.Title)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Meta.Author) - 
+            @Html.DisplayFor(model => model.Meta.Title)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UtcCreatedTime)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UtcCreatedTime)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Path)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Path)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="AudioId" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

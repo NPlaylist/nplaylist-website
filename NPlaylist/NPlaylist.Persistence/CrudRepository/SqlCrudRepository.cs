@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace NPlaylist.Persistence.CrudRepository
 {
     public class SqlCrudRepository<TEntity, UKey> : ICrudRepository<TEntity, UKey>
-        where TEntity: class
+        where TEntity : class
     {
         protected readonly DbContext _dbContext;
         protected readonly DbSet<TEntity> _dbSet;
@@ -19,6 +20,11 @@ namespace NPlaylist.Persistence.CrudRepository
         public TEntity GetById(UKey id)
         {
             return _dbSet.Find(id);
+        }
+
+        public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken ct)
+        {
+            return await _dbSet.AsNoTracking().ToListAsync(ct);
         }
 
         public void Add(TEntity element)

@@ -1,13 +1,45 @@
-﻿using Xunit;
-using FluentAssertions;
-using System.Threading.Tasks;
+﻿using FluentAssertions;
 using NPlaylist.Persistence.Tests.CrudRepository.Stubs;
-using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace NPlaylist.Persistence.Tests.CrudRepository
 {
     public class SqlCrudRepositoryTests
     {
+        [Fact]
+        public async Task GetAll_GetsElementAsExpected()
+        {
+            using (var connection = new DbConnection())
+            {
+                var dbContextBuilder = new StubDbContextBuilder(connection.DbOptions)
+                    .With(new StubDbModel { Id = 42 });
+
+                using (var context = dbContextBuilder.Build())
+                {
+                    var sut = new StubCrudRepository(context);
+                    var sutResult = await sut.GetAllAsync(CancellationToken.None);
+                    sutResult.Should().NotBeNull();
+                }
+            }
+        }
+
+        [Fact]
+        public async Task GetAll_NoEntries_ReturnsEmpty()
+        {
+            using (var connection = new DbConnection())
+            {
+                var dbContextBuilder = new StubDbContextBuilder(connection.DbOptions);
+                using (var context = dbContextBuilder.Build())
+                {
+                    var sut = new StubCrudRepository(context);
+                    var sutResult = await sut.GetAllAsync(CancellationToken.None);
+                    sutResult.Should().BeEmpty();
+                }
+            }
+        }
+
         [Fact]
         public void GetById_GetsElementAsExpected()
         {
@@ -15,7 +47,7 @@ namespace NPlaylist.Persistence.Tests.CrudRepository
             {
                 var dbContextBuilder = new StubDbContextBuilder(connection.DbOptions)
                     .With(new StubDbModel { Id = 42 });
-                
+
                 using (var context = dbContextBuilder.Build())
                 {
                     var sut = new StubCrudRepository(context);

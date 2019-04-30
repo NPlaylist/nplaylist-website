@@ -8,7 +8,11 @@ namespace NPlaylist
     {
         public AutoMapperProfile()
         {
-            CreateMap<Audio, AudioEntryViewModel>().ReverseMap();
+            CreateMap<Audio, AudioEntryViewModel>()
+                .ForMember(vm => vm.FullName, m => m.MapFrom(
+                    u => (u.Meta != null)
+                        ? u.Meta.Author + " - " + u.Meta.Title
+                        : "Unknown"));
         }
     }
 }

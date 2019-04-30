@@ -5,11 +5,10 @@ namespace NPlaylist.Models
 {
     public class AudioEntryViewModel
     {
-        public Guid Id { get; set; }
-        [Display(Name="Full Name")]
+        public Guid AudioId { get; set; }
+        [Display(Name = "Full Name")]
         public string FullName { get; set; }
-        public string Extension { get; set; }
-        public string Publisher { get; set; }
+        [Display(Name = "Created")]
         public DateTime UtcCreatedTime { get; set; }
     }
 }

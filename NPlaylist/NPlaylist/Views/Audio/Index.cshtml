@@ -17,12 +17,6 @@
                     @Html.DisplayNameFor(model => model.FullName)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Extension)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Publisher)
-                </th>
-                <th>
                     @Html.DisplayNameFor(model => model.UtcCreatedTime)
                 </th>
                 <th>Actions</th>
@@ -36,18 +30,12 @@
                         @Html.DisplayFor(modelItem => item.FullName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Extension)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Publisher)
-                    </td>
-                    <td>
                         @Html.DisplayFor(modelItem => item.UtcCreatedTime)
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a asp-action="Edit" asp-route-id="@item.AudioId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.AudioId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.AudioId">Delete</a>
                     </td>
                 </tr>
             }

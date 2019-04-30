@@ -2,28 +2,26 @@
 using Microsoft.AspNetCore.Mvc;
 using NPlaylist.Models;
 using NPlaylist.Models.Audio;
+using NPlaylist.Services.AudioService;
 using System;
-using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace NPlaylist.Controllers
 {
     public class AudioController : Controller
     {
-        public IActionResult Index()
+        private readonly IAudioService _audioService;
+
+        public AudioController(IAudioService audioService)
         {
-            IList<AudioEntryViewModel> entries = new List<AudioEntryViewModel>
-            {
-                new AudioEntryViewModel
-                {
-                    Id = Guid.NewGuid(),
-                    Extension = "mp3",
-                    FullName = "Foo - Bar",
-                    Publisher = "Baz",
-                    UtcCreatedTime = DateTime.Now
-                }
-            };
+            _audioService = audioService;
+        }
+
+        public async Task<IActionResult> Index(CancellationToken ct)
+        {
+            var entries = await _audioService.GetAudioEntriesAsync(ct);
             return View(entries);
         }
 

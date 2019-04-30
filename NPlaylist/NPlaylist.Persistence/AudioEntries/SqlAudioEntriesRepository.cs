@@ -1,13 +1,12 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using NPlaylist.Persistence.CrudRepository;
+﻿using NPlaylist.Persistence.CrudRepository;
 using NPlaylist.Persistence.DbModels;
+using System;
 
 namespace NPlaylist.Persistence.AudioEntries
 {
-    public class SqlAudioEntriesRepository : SqlCrudRepository<Audio, Guid>, IAudioEntriesRepository
+	public class SqlAudioEntriesRepository : SqlCrudRepository<Audio, Guid>, IAudioEntriesRepository
     {
-        public SqlAudioEntriesRepository(DbContext dbContext) : base(dbContext)
+        public SqlAudioEntriesRepository(ApplicationDbContext dbContext) : base(dbContext)
         {
         }
     }

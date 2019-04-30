@@ -4,6 +4,7 @@ using NPlaylist.Models;
 using NPlaylist.Models.Audio;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading;
 
 namespace NPlaylist.Controllers
@@ -54,6 +55,25 @@ namespace NPlaylist.Controllers
             }
 
             return View("Delete");
+        }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult Upload()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Upload(AudioUploadViewModel uploadedFile)
+        {
+            if (ModelState.IsValid)
+            {
+                uploadedFile.PublisherId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            }
+
+            return View();
         }
     }
 }

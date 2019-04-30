@@ -1,0 +1,21 @@
+﻿@model AudioUploadViewModel;
+
+@{
+    ViewData["Title"] = "Upload";
+}
+
+<div class="row ">
+    <div class="col-md-offset-3 col-md-6 uploadFormBody ">
+        <div class="panel panel-default  text-center uploadPanel">
+            <div class="panel-heading">
+                <h4>Upload audio:</h4>
+            </div>
+            <form asp-action="Upload" asp-controller="Audio" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                @Html.HiddenFor(m => m.File, new { type = "file", accept = ".mp3,.wav",id="fileInput", @class = "file text-center hidden" })
+                <input type="button" value="Browse..." onclick="document.getElementById('fileInput').click();" class="btn btn-default" />
+                <input type="submit" value="Upload" class="btn btn-default" />
+            </form>
+        </div>
+    </div>      
+</div>

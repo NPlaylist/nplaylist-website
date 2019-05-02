@@ -55,6 +55,41 @@ namespace NPlaylist.Controllers
             return View("Delete");
         }
 
+        [Authorize]
+        public IActionResult Edit(Guid id, CancellationToken ct)
+        {
+            var audioViewModel = new AudioViewModel
+            {
+                AudioId = id,
+                Meta = new AudioMetaViewModel
+                {
+                    Title = "Foo",
+                    Album = "Kek",
+                    Author = "Bar"
+                }
+            };
+
+            return View(audioViewModel);
+        }
+
+        [HttpPut]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Guid id, [FromForm] AudioViewModel audioViewModel, CancellationToken ct)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(audioViewModel);
+            }
+
+            if (id != audioViewModel.AudioId)
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
         [HttpGet]
         [Authorize]
         public IActionResult Upload()

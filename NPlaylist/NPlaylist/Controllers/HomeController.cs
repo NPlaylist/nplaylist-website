@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NPlaylist.Models;
+using NPlaylist.ViewModels;
 using System.Diagnostics;
 
 namespace NPlaylist.Controllers

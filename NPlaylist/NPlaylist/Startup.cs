@@ -9,6 +9,11 @@ using NPlaylist.Authentication;
 using NPlaylist.Infrastructure.System;
 using System.IO;
 using AutoMapper;
+using NPlaylist.Business;
+using NPlaylist.Business.Audio;
+using NPlaylist.Business.LocalRepository;
+using NPlaylist.Business.MetaTags;
+using NPlaylist.Business.Providers;
 using NPlaylist.Business.TagLibWrapper;
 using NPlaylist.Persistence;
 using NPlaylist.Persistence.AudioEntries;
@@ -74,13 +79,23 @@ namespace NPlaylist
             });
 
             services.AddScoped<ITagLibWrapper, TagLibWrapper>();
+            services.AddScoped<ITagsProvider, TagLibTagsProvider>();
             services.AddScoped<IDateTimeWrapper, DateTimeWrapper>();
             services.AddScoped<IDirectoryWrapper, DirectoryWrapper>();
             services.AddScoped<IGuidWrapper, GuidWrapper>();
             services.AddScoped<IPathWrapper, PathWrapper>();
+            services.AddScoped<IFileStreamFactory, FileStreamImpl>();
+            services.AddScoped<IPathProvider, LocalPathProvider>(a =>
+            {
+                var hostingEnv = a.GetService<IHostingEnvironment>();
+                var rootPath = hostingEnv.WebRootPath + "/Files/";
+                return new LocalPathProvider(rootPath, a.GetService<IPathWrapper>(), a.GetService<IGuidWrapper>());
+            });
 
             services.AddScoped<IAudioEntriesRepository, SqlAudioEntriesRepository>();
-            services.AddScoped<IAudioService, AudioServiceImpl>();
+            services.AddScoped<IAudioLocalRepository, AudioLocalRepositoryImpl>();
+            services.AddScoped<Services.AudioService.IAudioService, Services.AudioService.AudioServiceImpl>();
+            services.AddScoped<Business.Audio.IAudioService,Business.Audio.AudioServiceImpl >();
 
             services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

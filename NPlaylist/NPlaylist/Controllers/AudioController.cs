@@ -1,27 +1,32 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NPlaylist.Business.Audio;
 using NPlaylist.Models;
-using NPlaylist.Models.Audio;
-using NPlaylist.Services.AudioService;
+using NPlaylist.ViewModels;
 using System;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+using NPlaylist.Models.Audio;
 
 namespace NPlaylist.Controllers
 {
     public class AudioController : Controller
     {
+        private readonly Services.AudioService.IAudioService _audioServicePl;
         private readonly IAudioService _audioService;
 
-        public AudioController(IAudioService audioService)
+        public AudioController(
+            Services.AudioService.IAudioService audioServicePl,
+            IAudioService audioService)
         {
+            _audioServicePl = audioServicePl;
             _audioService = audioService;
         }
 
         public async Task<IActionResult> Index(CancellationToken ct)
         {
-            var entries = await _audioService.GetAudioEntriesAsync(ct);
+            var entries = await _audioServicePl.GetAudioEntriesAsync(ct);
             return View(entries);
         }
 
@@ -99,11 +104,17 @@ namespace NPlaylist.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult Upload(AudioUploadViewModel uploadedFile)
+        public async Task<IActionResult> Upload(AudioUploadViewModel uploadedFile, CancellationToken ct)
         {
             if (ModelState.IsValid)
             {
-                uploadedFile.PublisherId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                uploadedFile.PublisherId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var dto = new AudioUploadDto
+                {
+                    File = new FileModel(uploadedFile.File),
+                    PublisherId = uploadedFile.PublisherId
+                };
+                await _audioService.UploadAsync(dto, ct);
             }
 
             return View();

@@ -21,7 +21,7 @@ namespace NPlaylist.Business.Providers
         public string BuildPath(string fileName)
         {
             var fileExtension = _pathWrapper.GetExtension(fileName).Replace(".", "");
-            var fullPath = _pathWrapper.Combine(_appEnvironmentPath, "Files", fileExtension, _guidWrapper.NewGuid() + fileName);
+            var fullPath = _pathWrapper.Combine(_appEnvironmentPath, fileExtension, _guidWrapper.NewGuid().ToString() + fileName);
 
             return fullPath;
         }

@@ -149,7 +149,7 @@ namespace NPlaylist.Persistence.Tests.CrudRepository
                 {
                     var sut = new StubCrudRepository(context);
                     sut.Add(new StubDbModel());
-                    await sut.SaveAsync();
+                    await sut.SaveAsync(CancellationToken.None);
                 }
 
                 using (var context = dbContextBuilder.Build())

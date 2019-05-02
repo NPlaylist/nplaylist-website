@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NPlaylist.ViewModels;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -22,6 +23,12 @@ namespace NPlaylist.Services.AudioService
             _audioEntriesRepository = audioEntriesRepository;
         }
 
+        public async Task<IEnumerable<AudioEntryViewModel>> GetAudioEntriesAsync(CancellationToken ct)
+        {
+            var entriesRepo = await _audioEntriesRepository.GetAllAsync(ct);
+            return _mapper.Map<List<AudioEntryViewModel>>(entriesRepo);
+        }
+    
         public async Task<AudioViewModel> GetAudioAsync(Guid id, CancellationToken ct)
         {
             var audio = await _audioEntriesRepository.GetAudioIncludingMetaAsync(id, ct);
@@ -40,7 +47,7 @@ namespace NPlaylist.Services.AudioService
             try
             {
                 _audioEntriesRepository.Update(audio);
-                await _audioEntriesRepository.SaveAsync();
+                await _audioEntriesRepository.SaveAsync(ct);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -53,12 +60,6 @@ namespace NPlaylist.Services.AudioService
                     throw new KeyNotFoundException();
                 }
             }
-        }
-
-        public async Task<IEnumerable<AudioEntryViewModel>> GetAudioEntriesAsync(CancellationToken ct)
-        {
-            var entriesRepo = await _audioEntriesRepository.GetAllAsync(ct);
-            return _mapper.Map<List<AudioEntryViewModel>>(entriesRepo);
         }
     }
 }

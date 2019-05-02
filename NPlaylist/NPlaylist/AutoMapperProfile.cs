@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using NPlaylist.Models;
 using NPlaylist.Persistence.DbModels;
+using NPlaylist.ViewModels;
 
 namespace NPlaylist
 {

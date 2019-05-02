@@ -15,6 +15,6 @@ namespace NPlaylist.Persistence.CrudRepository
         void Update(TEntity element);
 
         void Save();
-        Task SaveAsync();
+        Task SaveAsync(CancellationToken ct);
     }
 }

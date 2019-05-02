@@ -1,6 +1,4 @@
-using System;
-
-namespace NPlaylist.Models
+namespace NPlaylist.ViewModels
 {
     public class ErrorViewModel
     {

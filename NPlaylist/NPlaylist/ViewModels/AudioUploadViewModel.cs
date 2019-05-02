@@ -1,14 +1,16 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations;
+using NPlaylist.Attributes;
 
-namespace NPlaylist.Models
+namespace NPlaylist.ViewModels
 {
     public class AudioUploadViewModel
     {
         [Required(ErrorMessage = "Select audio file.")]
-        [FileExtensions(Extensions = "mp3,wav", ErrorMessage = ("File format is wrong."))]
+        [AllowExtensions(Extensions = "mp3,wav", ErrorMessage = ("File format is wrong."))]
         public IFormFile File { get; set; }
 
-        public string PublisherId { get; set; }
+        public Guid PublisherId { get; set; }
     }
 }

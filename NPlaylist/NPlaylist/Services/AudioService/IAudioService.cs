@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NPlaylist.Models;
 using NPlaylist.Models.Audio;
+using NPlaylist.ViewModels;
 
 namespace NPlaylist.Services.AudioService
 {

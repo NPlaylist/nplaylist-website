@@ -53,9 +53,9 @@ namespace NPlaylist.Persistence.CrudRepository
             _dbContext.SaveChanges();
         }
 
-        public Task SaveAsync()
+        public Task SaveAsync(CancellationToken ct)
         {
-            return _dbContext.SaveChangesAsync();
+            return _dbContext.SaveChangesAsync(ct);
         }
     }
 }

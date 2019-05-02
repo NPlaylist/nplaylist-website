@@ -9,16 +9,22 @@ namespace NPlaylist.Business.Tests.Audio
         private IDirectoryWrapper _directoryWrapper;
         private IPathWrapper _pathWrapper;
         private IFileStreamFactory _streamFactory;
+        private IFileWrapper _fileWrapper;
         public AudioLocalRepositoryBuilder()
         {
             _pathWrapper = Substitute.For<IPathWrapper>();
             _streamFactory = Substitute.For<IFileStreamFactory>();
             _directoryWrapper = Substitute.For<IDirectoryWrapper>();
+            _fileWrapper = Substitute.For<IFileWrapper>();
         }
 
         public AudioLocalRepositoryImpl Build()
         {
-            return new AudioLocalRepositoryImpl(_pathWrapper, _directoryWrapper, _streamFactory);
+            return new AudioLocalRepositoryImpl(
+                _pathWrapper,
+                _directoryWrapper,
+                _streamFactory,
+                _fileWrapper);
         }
 
         public AudioLocalRepositoryBuilder WithDirectoryWrapper(IDirectoryWrapper directoryWrapper)
@@ -36,6 +42,12 @@ namespace NPlaylist.Business.Tests.Audio
         public AudioLocalRepositoryBuilder WithPathWrapper(IPathWrapper pathWrapper)
         {
             _pathWrapper = pathWrapper;
+            return this;
+        }
+
+        public AudioLocalRepositoryBuilder WithFileWrapper(IFileWrapper fileWrapper)
+        {
+            _fileWrapper = fileWrapper;
             return this;
         }
     }

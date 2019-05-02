@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using Microsoft.AspNetCore.Http;
 using NPlaylist.Infrastructure.System;
 using NSubstitute;
 using System.IO;
@@ -65,6 +66,45 @@ namespace NPlaylist.Business.Tests.Audio
 
             await sut.AddAsync(audio, CancellationToken.None);
             stream.Received().Create("test", FileMode.Create, FileAccess.Write);
+        }
+
+        [Fact]
+        public  void Delete_FileExistsWasCalled_True()
+        {
+            var fileWrapperMock = Substitute.For<IFileWrapper>();
+            fileWrapperMock.Exists(Arg.Any<string>()).Returns(true);
+            var sut = new AudioLocalRepositoryBuilder()
+                .WithFileWrapper(fileWrapperMock)
+                .Build();
+
+            sut.Delete("testFolder");
+            fileWrapperMock.Received().Exists("testFolder");
+        }
+
+        [Fact]
+        public void Delete_FileDeleteIsCalledIfFileExists_True()
+        {
+            var fileWrapperMock = Substitute.For<IFileWrapper>();
+            fileWrapperMock.Exists(Arg.Any<string>()).Returns(true);
+            var sut = new AudioLocalRepositoryBuilder()
+                .WithFileWrapper(fileWrapperMock)
+                .Build();
+
+            sut.Delete("testFolder");
+            fileWrapperMock.Received().Delete("testFolder");
+        }
+
+        [Fact]
+        public void Delete_FileDeleteNotCalledIfFileNotExists_True()
+        {
+            var fileWrapperMock = Substitute.For<IFileWrapper>();
+            fileWrapperMock.Exists(Arg.Any<string>()).Returns(false);
+            var sut = new AudioLocalRepositoryBuilder()
+                .WithFileWrapper(fileWrapperMock)
+                .Build();
+
+            sut.Delete("testFolder");
+            fileWrapperMock.DidNotReceive().Delete(Arg.Any<string>());
         }
     }
 }

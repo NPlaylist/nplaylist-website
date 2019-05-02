@@ -59,7 +59,7 @@ namespace NPlaylist.Controllers
             return View(audioViewModel);
         }
 
-        [HttpDelete]
+        [HttpPost]
         [Authorize]
         public IActionResult Delete(Guid id, CancellationToken ct)
         {

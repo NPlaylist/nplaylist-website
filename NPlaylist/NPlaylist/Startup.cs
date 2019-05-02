@@ -88,6 +88,7 @@ namespace NPlaylist
             services.AddScoped<IGuidWrapper, GuidWrapper>();
             services.AddScoped<IPathWrapper, PathWrapper>();
             services.AddScoped<IFileStreamFactory, FileStreamImpl>();
+            services.AddScoped<IFileWrapper, FileWrapper>();
             services.AddScoped<IPathProvider, LocalPathProvider>(a =>
             {
                 var hostingEnv = a.GetService<IHostingEnvironment>();

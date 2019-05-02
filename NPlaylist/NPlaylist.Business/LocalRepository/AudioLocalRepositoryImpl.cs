@@ -10,12 +10,18 @@ namespace NPlaylist.Business.LocalRepository
     {
         private readonly IDirectoryWrapper _directoryWrapper;
         private readonly IFileStreamFactory _streamFactory;
+        private readonly IFileWrapper _fileWrapper;
         private readonly IPathWrapper _pathWrapper;
 
-        public AudioLocalRepositoryImpl(IPathWrapper pathWrapper, IDirectoryWrapper directoryWrapper, IFileStreamFactory streamFactory)
+        public AudioLocalRepositoryImpl(
+            IPathWrapper pathWrapper,
+            IDirectoryWrapper directoryWrapper,
+            IFileStreamFactory streamFactory,
+            IFileWrapper fileWrapper)
         {
             _directoryWrapper = directoryWrapper;
             _streamFactory = streamFactory;
+            _fileWrapper = fileWrapper;
             _pathWrapper = pathWrapper;
         }
 
@@ -26,6 +32,14 @@ namespace NPlaylist.Business.LocalRepository
             using (var fileStream = _streamFactory.Create(audioLocalStoreModel.Path, FileMode.Create, FileAccess.Write))
             {
                 await audioLocalStoreModel.File.CopyToAsync(fileStream, ct);
+            }
+        }
+
+        public void Delete(string filePath)
+        {
+            if (_fileWrapper.Exists(filePath))
+            {
+                _fileWrapper.Delete(filePath);
             }
         }
 

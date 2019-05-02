@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using NPlaylist.Models;
+using NPlaylist.Models.Audio;
 using NPlaylist.Persistence.DbModels;
 using NPlaylist.ViewModels;
 
@@ -14,6 +15,9 @@ namespace NPlaylist
                     u => (u.Meta != null)
                         ? u.Meta.Author + " - " + u.Meta.Title
                         : "Unknown"));
+
+            CreateMap<AudioMeta, AudioMetaViewModel>().ReverseMap();
+            CreateMap<Audio, AudioViewModel>().ReverseMap();
         }
     }
 }

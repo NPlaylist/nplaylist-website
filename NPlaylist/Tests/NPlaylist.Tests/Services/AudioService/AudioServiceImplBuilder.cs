@@ -1,37 +1,29 @@
 ﻿using AutoMapper;
 using NPlaylist.Persistence.AudioEntries;
 using NPlaylist.Services.AudioService;
-using NSubstitute;
 
 namespace NPlaylist.Tests.Services.AudioService
 {
     public class AudioServiceImplBuilder
     {
+        private IAudioEntriesRepository _audioRepo;
         private IMapper _mapper;
-        private IAudioEntriesRepository _audioRepository;
-
-        public AudioServiceImplBuilder()
-        {
-            //_mapper = new MapperBuilder().WithDefaultProfile().Build();
-            _mapper = Substitute.For<IMapper>();
-            _audioRepository = Substitute.For<IAudioEntriesRepository>();
-        }
-
-        public AudioServiceImplBuilder WithAudioRepository(IAudioEntriesRepository audioRepository)
-        {
-            _audioRepository = audioRepository;
-            return this;
-        }
-
-        public AudioServiceImplBuilder WithAutoMapper(IMapper mapper)
-        {
-            _mapper = mapper;
-            return this;
-        }
 
         public AudioServiceImpl Build()
         {
-            return new AudioServiceImpl(_mapper, _audioRepository);
+            return new AudioServiceImpl(_mapper, _audioRepo);
+        }
+
+        public AudioServiceImplBuilder WithAudioRepo(IAudioEntriesRepository audioEntriesRepository)
+        {
+            _audioRepo = audioEntriesRepository;
+            return this;
+        }
+
+        public AudioServiceImplBuilder WithMapper(IMapper mapper)
+        {
+            _mapper = mapper;
+            return this;
         }
     }
 }

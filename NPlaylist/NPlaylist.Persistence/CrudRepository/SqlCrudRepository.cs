@@ -1,3 +1,4 @@
+﻿using System;
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading;
@@ -20,6 +21,11 @@ namespace NPlaylist.Persistence.CrudRepository
         public TEntity GetById(UKey id)
         {
             return _dbSet.Find(id);
+        }
+
+        public Task<TEntity> GetByIdAsync(UKey id, CancellationToken ct)
+        {
+            return _dbSet.FindAsync(id, ct);
         }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken ct)

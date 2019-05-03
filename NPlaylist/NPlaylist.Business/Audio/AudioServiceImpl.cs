@@ -1,10 +1,11 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using NPlaylist.Business.LocalRepository;
+﻿using NPlaylist.Business.LocalRepository;
 using NPlaylist.Business.MetaTags;
 using NPlaylist.Business.Providers;
 using NPlaylist.Infrastructure.System;
 using NPlaylist.Persistence.AudioEntries;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace NPlaylist.Business.Audio
 {
@@ -34,10 +35,10 @@ namespace NPlaylist.Business.Audio
         {
             var path = _pathProvider.BuildPath(uploadViewModel.File.FileName);
             await SaveToLocalFolder(uploadViewModel, ct, path);
-            await SaveIntoDatabase(uploadViewModel,ct, path);
+            await SaveIntoDatabase(uploadViewModel, ct, path);
         }
 
-        private async Task SaveIntoDatabase(AudioUploadDto uploadViewModel, CancellationToken ct,string path)
+        private async Task SaveIntoDatabase(AudioUploadDto uploadViewModel, CancellationToken ct, string path)
         {
             var audioModel = new Persistence.DbModels.Audio
             {
@@ -60,6 +61,12 @@ namespace NPlaylist.Business.Audio
             };
 
             await _localAudioRepository.AddAsync(localStoreModel, ct);
+        }
+
+        public async Task DeleteAsync(Guid id, CancellationToken ct)
+        {
+            var audioPath = _audioEntriesRepository.GetById(id).Path;
+            _localAudioRepository.Delete(audioPath);
         }
     }
 }

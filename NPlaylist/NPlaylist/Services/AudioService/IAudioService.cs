@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using NPlaylist.Models;
 using NPlaylist.Persistence.DbModels;
 using NPlaylist.ViewModels;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace NPlaylist.Services.AudioService
 {

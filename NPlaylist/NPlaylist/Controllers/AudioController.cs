@@ -9,20 +9,30 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using NPlaylist.Models.Audio;
+using NPlaylist.Authorization;
+using AutoMapper;
+using NPlaylist.Persistence.DbModels;
+using Microsoft.AspNetCore.Http;
 
 namespace NPlaylist.Controllers
 {
     public class AudioController : Controller
     {
+        private readonly IAuthorizationService _authorizationService;
         private readonly Services.AudioService.IAudioService _audioServicePl;
         private readonly IAudioService _audioService;
+        private readonly IMapper _mapper;
 
         public AudioController(
+            IAuthorizationService authorizationService,
             Services.AudioService.IAudioService audioServicePl,
-            IAudioService audioService)
+            IAudioService audioService,
+            IMapper mapper)
         {
+            _authorizationService = authorizationService;
             _audioServicePl = audioServicePl;
             _audioService = audioService;
+            _mapper = mapper;
         }
 
         public async Task<IActionResult> Index(CancellationToken ct)
@@ -65,49 +75,43 @@ namespace NPlaylist.Controllers
         [Authorize]
         public async Task<IActionResult> Edit(Guid id, CancellationToken ct)
         {
-            AudioViewModel audioViewModel;
-            try
-            {
-                audioViewModel = await _audioServicePl.GetAudioAsync(id, ct);
-            }
-            catch (KeyNotFoundException)
+            var audio = await _audioServicePl.GetAudioAsync(id, ct);
+            if (audio == null)
             {
                 return AudioNotFound();
             }
 
-            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            if (userId != audioViewModel.OwnerId)
+            var authResult = await _authorizationService.AuthorizeAsync(User, audio, Operations.Update);
+            if (!authResult.Succeeded)
             {
                 return Forbid();
             }
 
+            var audioViewModel = _mapper.Map<AudioViewModel>(audio);
             return View(audioViewModel);
         }
 
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [FromForm] AudioViewModel audioViewModel, CancellationToken ct)
+        public async Task<IActionResult> Edit([FromForm] AudioViewModel audioViewModel, CancellationToken ct)
         {
             if (!ModelState.IsValid)
             {
                 return View(audioViewModel);
             }
 
-            if (id != audioViewModel.AudioId)
-            {
-                return AudioNotFound();
-            }
+            var audio = _mapper.Map<Audio>(audioViewModel);
 
-            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            if (userId != audioViewModel.OwnerId)
+            var authResult = await _authorizationService.AuthorizeAsync(User, audio, Operations.Update);
+            if (!authResult.Succeeded)
             {
                 return Forbid();
             }
 
             try
             {
-                await _audioServicePl.UpdateAudioAsync(audioViewModel, ct);
+                await _audioServicePl.UpdateAudioAsync(audio, ct);
             }
             catch (KeyNotFoundException)
             {
@@ -144,7 +148,11 @@ namespace NPlaylist.Controllers
 
         private IActionResult AudioNotFound()
         {
-            return View("AudioNotFound");
+            return new ViewResult
+            {
+                ViewName = "AudioNotFound",
+                StatusCode = StatusCodes.Status404NotFound
+            };
         }
     }
 }

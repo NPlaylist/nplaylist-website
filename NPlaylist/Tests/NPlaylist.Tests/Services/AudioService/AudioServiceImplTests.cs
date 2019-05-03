@@ -6,7 +6,6 @@ using AutoMapper;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Update;
-using NPlaylist.Models.Audio;
 using NPlaylist.Persistence.AudioEntries;
 using NPlaylist.Persistence.DbModels;
 using NSubstitute;
@@ -17,13 +16,13 @@ namespace NPlaylist.Tests.Services.AudioService
     public class AudioServiceImplTests
     {
         [Fact]
-        public void GetAudioAsync_ForNoAudios_ThrowsException()
+        public async Task GetAudioAsync_ForNoAudios_ReturnsNull()
         {
             var repo = Substitute.For<IAudioEntriesRepository>();
             var sut = new AudioServiceImplBuilder().WithAudioRepo(repo).Build();
 
-            Func<Task> actualAction = async () => await sut.GetAudioAsync(Guid.Empty, CancellationToken.None);
-            actualAction.Should().Throw<KeyNotFoundException>();
+            var actual = await sut.GetAudioAsync(Guid.Empty, CancellationToken.None);
+            actual.Should().BeNull();
         }
 
         [Fact]
@@ -60,7 +59,7 @@ namespace NPlaylist.Tests.Services.AudioService
                 .Build();
 
             Func<Task> actualAction = async () =>
-                await sut.UpdateAudioAsync(new AudioViewModel(), CancellationToken.None);
+                await sut.UpdateAudioAsync(new Audio(), CancellationToken.None);
 
             actualAction.Should().Throw<KeyNotFoundException>();
         }
@@ -75,7 +74,7 @@ namespace NPlaylist.Tests.Services.AudioService
                 .WithMapper(mapper)
                 .Build();
 
-            await sut.UpdateAudioAsync(new AudioViewModel(), CancellationToken.None);
+            await sut.UpdateAudioAsync(new Audio(), CancellationToken.None);
 
             repo.Received().Update(Arg.Any<Audio>());
         }

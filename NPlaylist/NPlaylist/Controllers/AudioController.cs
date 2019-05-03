@@ -4,6 +4,7 @@ using NPlaylist.Business.Audio;
 using NPlaylist.Models;
 using NPlaylist.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
@@ -60,27 +61,33 @@ namespace NPlaylist.Controllers
             return View("Delete");
         }
 
+        [HttpGet]
         [Authorize]
-        public IActionResult Edit(Guid id, CancellationToken ct)
+        public async Task<IActionResult> Edit(Guid id, CancellationToken ct)
         {
-            var audioViewModel = new AudioViewModel
+            AudioViewModel audioViewModel;
+            try
             {
-                AudioId = id,
-                Meta = new AudioMetaViewModel
-                {
-                    Title = "Foo",
-                    Album = "Kek",
-                    Author = "Bar"
-                }
-            };
+                audioViewModel = await _audioServicePl.GetAudioAsync(id, ct);
+            }
+            catch (KeyNotFoundException)
+            {
+                return AudioNotFound();
+            }
+
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            if (userId != audioViewModel.OwnerId)
+            {
+                return Forbid();
+            }
 
             return View(audioViewModel);
         }
 
-        [HttpPut]
+        [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Guid id, [FromForm] AudioViewModel audioViewModel, CancellationToken ct)
+        public async Task<IActionResult> Edit(Guid id, [FromForm] AudioViewModel audioViewModel, CancellationToken ct)
         {
             if (!ModelState.IsValid)
             {
@@ -89,7 +96,22 @@ namespace NPlaylist.Controllers
 
             if (id != audioViewModel.AudioId)
             {
-                return NotFound();
+                return AudioNotFound();
+            }
+
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            if (userId != audioViewModel.OwnerId)
+            {
+                return Forbid();
+            }
+
+            try
+            {
+                await _audioServicePl.UpdateAudioAsync(audioViewModel, ct);
+            }
+            catch (KeyNotFoundException)
+            {
+                return AudioNotFound();
             }
 
             return RedirectToAction(nameof(Index));
@@ -118,6 +140,11 @@ namespace NPlaylist.Controllers
             }
 
             return View();
+        }
+
+        private IActionResult AudioNotFound()
+        {
+            return View("AudioNotFound");
         }
     }
 }

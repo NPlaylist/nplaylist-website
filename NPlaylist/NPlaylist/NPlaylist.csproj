@@ -18,6 +18,7 @@
     <Folder Include="Services\" />
     <Folder Include="Services\AudioService\" />
     <Folder Include="Models\Audio\" />
+    <Folder Include="Authorization\" />
   </ItemGroup>
 
   <ItemGroup>

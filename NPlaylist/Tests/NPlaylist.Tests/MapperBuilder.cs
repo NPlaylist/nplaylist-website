@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
 
-namespace NPlaylist.Tests.Services
+namespace NPlaylist.Tests
 {
     public class MapperBuilder
     {

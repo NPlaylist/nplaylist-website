@@ -18,6 +18,8 @@ using NPlaylist.Business.TagLibWrapper;
 using NPlaylist.Persistence;
 using NPlaylist.Persistence.AudioEntries;
 using NPlaylist.Services.AudioService;
+using NPlaylist.Authorization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace NPlaylist
 {
@@ -68,6 +70,7 @@ namespace NPlaylist
                     Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
 
             ConfigureDbContexts(services);
+            ConfigureAuthorization(services);
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -100,12 +103,18 @@ namespace NPlaylist
             services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
+
         private void ConfigureDbContexts(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>();
             services.AddDbContext<AuthenticationDbContext>();
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<AuthenticationDbContext>();
+        }
+
+        private void ConfigureAuthorization(IServiceCollection services)
+        {
+            services.AddSingleton<IAuthorizationHandler, AudioAuthorizationCrudHandler>();
         }
     }
 }

@@ -29,21 +29,13 @@ namespace NPlaylist.Services.AudioService
             return _mapper.Map<List<AudioEntryViewModel>>(entriesRepo);
         }
     
-        public async Task<AudioViewModel> GetAudioAsync(Guid id, CancellationToken ct)
+        public Task<Audio> GetAudioAsync(Guid id, CancellationToken ct)
         {
-            var audio = await _audioEntriesRepository.GetAudioIncludingMetaAsync(id, ct);
-            if (audio == null)
-            {
-                throw new KeyNotFoundException();
-            }
-
-            return _mapper.Map<AudioViewModel>(audio);
+            return _audioEntriesRepository.GetAudioIncludingMetaAsync(id, ct);
         }
 
-        public async Task UpdateAudioAsync(AudioViewModel audioViewModel, CancellationToken ct)
+        public async Task UpdateAudioAsync(Audio audio, CancellationToken ct)
         {
-            var audio = _mapper.Map<Audio>(audioViewModel);
-
             try
             {
                 _audioEntriesRepository.Update(audio);

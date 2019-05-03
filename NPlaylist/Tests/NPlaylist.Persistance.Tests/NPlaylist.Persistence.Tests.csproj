@@ -18,6 +18,7 @@
   <ItemGroup>
     <Folder Include="CrudRepository\" />
     <Folder Include="CrudRepository\Stubs\" />
+    <Folder Include="EntityBuilders\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\NPlaylist.Persistence\NPlaylist.Persistence.csproj" />

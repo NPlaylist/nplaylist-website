@@ -24,9 +24,12 @@ namespace NPlaylist.Controllers
             _audioService = audioService;
         }
 
-        public async Task<IActionResult> Index(CancellationToken ct)
+        public async Task<IActionResult> Index(CancellationToken ct, int page = 1)
         {
-            var entries = await _audioServicePl.GetAudioEntriesAsync(ct);
+            if (page < 1) throw new ArgumentOutOfRangeException(nameof(page));
+            const int defaultCount = 10;
+
+            var entries = await _audioServicePl.GetAudioEntriesRangeAsync(page, defaultCount, ct);
             return View(entries);
         }
 

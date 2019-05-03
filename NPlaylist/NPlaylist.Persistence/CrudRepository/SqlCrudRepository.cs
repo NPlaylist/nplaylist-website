@@ -28,11 +28,6 @@ namespace NPlaylist.Persistence.CrudRepository
             return _dbSet.FindAsync(id, ct);
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken ct)
-        {
-            return await _dbSet.AsNoTracking().ToListAsync(ct);
-        }
-
         public void Add(TEntity element)
         {
             _dbSet.Add(element);

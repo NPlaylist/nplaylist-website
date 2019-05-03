@@ -1,4 +1,4 @@
-﻿@model IEnumerable<NPlaylist.ViewModels.AudioEntryViewModel>
+﻿@model PaginatedList<NPlaylist.ViewModels.AudioEntryViewModel>
 @{
     ViewBag.Title = "Audio";
 }
@@ -12,35 +12,49 @@
 {
     <table class="table">
         <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.FullName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.UtcCreatedTime)
-                </th>
-                <th>Actions</th>
-            </tr>
+        <tr>
+            <th>
+                Full Name
+            </th>
+            <th>
+                Created
+            </th>
+            <th>Actions</th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FullName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UtcCreatedTime)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.AudioId">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.AudioId">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.AudioId">Delete</a>
-                    </td>
-                </tr>
-            }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UtcCreatedTime)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.AudioId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.AudioId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.AudioId">Delete</a>
+                </td>
+            </tr>
+        }
         </tbody>
     </table>
+
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageIndex - 1)"
+       class="btn btn-default @prevDisabled">
+        Previous
+    </a>
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageIndex + 1)"
+       class="btn btn-default @nextDisabled">
+        Next
+    </a>
 }
 else
 {

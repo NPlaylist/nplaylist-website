@@ -12,6 +12,6 @@ namespace NPlaylist.Services.AudioService
     {
         Task<AudioViewModel> GetAudioAsync(Guid id, CancellationToken ct);
         Task UpdateAudioAsync(AudioViewModel audioViewModel, CancellationToken ct);
-        Task<IEnumerable<AudioEntryViewModel>> GetAudioEntriesAsync(CancellationToken ct);
+        Task<PaginatedList<AudioEntryViewModel>> GetAudioEntriesRangeAsync(int page, int count, CancellationToken ct);
     }
 }

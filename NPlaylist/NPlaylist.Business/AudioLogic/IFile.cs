@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NPlaylist.Business.Audio
+namespace NPlaylist.Business.AudioLogic
 {
     public interface IFile
     {

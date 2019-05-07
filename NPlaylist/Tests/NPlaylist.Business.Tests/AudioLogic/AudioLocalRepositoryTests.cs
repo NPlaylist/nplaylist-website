@@ -1,13 +1,12 @@
-﻿using System;
+﻿using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using NPlaylist.Infrastructure.System;
 using NSubstitute;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 
-namespace NPlaylist.Business.Tests.Audio
+namespace NPlaylist.Business.Tests.AudioLogic
 {
     public class AudioLocalRepositoryTests
     {

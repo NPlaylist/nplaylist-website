@@ -1,36 +1,32 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NPlaylist.Business.Audio;
+using NPlaylist.Authorization;
+using NPlaylist.Business.AudioLogic;
 using NPlaylist.Models;
-using NPlaylist.ViewModels;
+using NPlaylist.Persistence.DbModels;
+using NPlaylist.ViewModels.Audio;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using NPlaylist.Models.Audio;
-using NPlaylist.Authorization;
-using AutoMapper;
-using NPlaylist.Persistence.DbModels;
-using Microsoft.AspNetCore.Http;
 
 namespace NPlaylist.Controllers
 {
     public class AudioController : Controller
     {
         private readonly IAuthorizationService _authorizationService;
-        private readonly Services.AudioService.IAudioService _audioServicePl;
         private readonly IAudioService _audioService;
         private readonly IMapper _mapper;
 
         public AudioController(
             IAuthorizationService authorizationService,
-            Services.AudioService.IAudioService audioServicePl,
             IAudioService audioService,
             IMapper mapper)
         {
             _authorizationService = authorizationService;
-            _audioServicePl = audioServicePl;
             _audioService = audioService;
             _mapper = mapper;
         }
@@ -38,47 +34,51 @@ namespace NPlaylist.Controllers
         public async Task<IActionResult> Index(CancellationToken ct, int page = 1)
         {
             if (page < 1) throw new ArgumentOutOfRangeException(nameof(page));
-            const int defaultCount = 10;
+            const int defaultCount = 1;
 
-            var entries = await _audioServicePl.GetAudioEntriesRangeAsync(page, defaultCount, ct);
-            return View(entries);
+            var audioPaginationDto = await _audioService.GetAudioPaginationAsync(page, defaultCount, ct);
+            var paginationViewModel = _mapper.Map<AudioPaginatedListViewModel>(audioPaginationDto);
+            return View(paginationViewModel);
         }
 
         [HttpGet]
         [Authorize]
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(CancellationToken ct, Guid id)
         {
-            var audioViewModel = new AudioViewModel
+            var audio = await _audioService.GetAudioAsync(id, ct);
+            if (audio == null)
             {
-                AudioId = id,
-                UtcCreatedTime = DateTime.Now,
-                Path = "Foo/Bar",
-                Meta = new AudioMetaViewModel
-                {
-                    Title = "John",
-                    Author = "Doe"
-                }
-            };
+                return AudioNotFound();
+            }
+
+            var authResult = await _authorizationService.AuthorizeAsync(User, audio, Operations.Delete);
+            if (!authResult.Succeeded)
+            {
+                return Forbid();
+            }
+
+            var audioViewModel = _mapper.Map<AudioViewModel>(audio);
             return View(audioViewModel);
         }
 
         [HttpPost]
         [Authorize]
-        public IActionResult Delete(Guid id, CancellationToken ct)
+        public async Task<IActionResult> Delete(Guid id, CancellationToken ct)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                return RedirectToAction("Index");
+                throw new ArgumentException();
             }
 
-            return View("Delete");
+            await _audioService.DeleteAudioAsync(id, ct);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> Edit(Guid id, CancellationToken ct)
         {
-            var audio = await _audioServicePl.GetAudioAsync(id, ct);
+            var audio = await _audioService.GetAudioAsync(id, ct);
             if (audio == null)
             {
                 return AudioNotFound();
@@ -114,7 +114,7 @@ namespace NPlaylist.Controllers
 
             try
             {
-                await _audioServicePl.UpdateAudioAsync(audio, ct);
+                await _audioService.UpdateAudioAsync(audio, ct);
             }
             catch (KeyNotFoundException)
             {
@@ -143,7 +143,7 @@ namespace NPlaylist.Controllers
                     File = new FileModel(uploadedFile.File),
                     PublisherId = uploadedFile.PublisherId
                 };
-                await _audioService.UploadAsync(dto, ct);
+                await _audioService.UploadAudioAsync(dto, ct);
             }
 
             return View();

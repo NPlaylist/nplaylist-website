@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NPlaylist.Business.Audio
+namespace NPlaylist.Business.AudioLogic
 {
     public class AudioUploadDto
     {

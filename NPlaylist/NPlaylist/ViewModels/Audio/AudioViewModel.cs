@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NPlaylist.Models.Audio
+namespace NPlaylist.ViewModels.Audio
 {
     public class AudioViewModel
     {

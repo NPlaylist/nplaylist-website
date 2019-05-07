@@ -1,8 +1,8 @@
-﻿using NPlaylist.Business.Providers;
+﻿using System;
+using System.IO;
+using NPlaylist.Business.Providers;
 using NPlaylist.Infrastructure.System;
 using NSubstitute;
-using System;
-using System.IO;
 
 namespace NPlaylist.Business.Tests.Providers
 {

@@ -15,10 +15,8 @@
 
   <ItemGroup>
     <Folder Include="Areas\Identity\Services\" />
-    <Folder Include="Services\" />
-    <Folder Include="Services\AudioService\" />
-    <Folder Include="Models\Audio\" />
     <Folder Include="Authorization\" />
+    <Folder Include="wwwroot\Files\mp3\" />
   </ItemGroup>
 
   <ItemGroup>

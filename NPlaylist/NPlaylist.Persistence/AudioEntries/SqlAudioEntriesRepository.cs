@@ -1,13 +1,11 @@
+﻿using Microsoft.EntityFrameworkCore;
+using NPlaylist.Persistence.CrudRepository;
+using NPlaylist.Persistence.DbModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using NPlaylist.Persistence;
-using NPlaylist.Persistence.AudioEntries;
-using NPlaylist.Persistence.CrudRepository;
-using NPlaylist.Persistence.DbModels;
 
 namespace NPlaylist.Persistence.AudioEntries
 {

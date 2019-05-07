@@ -1,6 +1,4 @@
-﻿using System;
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -28,9 +26,9 @@ namespace NPlaylist.Persistence.CrudRepository
             return _dbSet.FindAsync(id, ct);
         }
 
-        public void Add(TEntity element)
+        public Task AddAsync(TEntity element, CancellationToken ct)
         {
-            _dbSet.Add(element);
+            return _dbSet.AddAsync(element, ct);
         }
 
         public void Remove(TEntity element)

@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-using NPlaylist.Business.Audio;
+﻿using System;
+using Microsoft.AspNetCore.Http;
+using NPlaylist.Business.AudioLogic;
 using NPlaylist.Models;
 using NSubstitute;
-using System;
 
-namespace NPlaylist.Business.Tests.Audio
+namespace NPlaylist.Business.Tests.AudioLogic
 {
     public class AudioUploadDtoBuilder
     {

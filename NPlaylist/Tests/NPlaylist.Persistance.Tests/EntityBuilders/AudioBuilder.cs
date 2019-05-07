@@ -16,7 +16,7 @@ namespace NPlaylist.Persistence.Tests.EntityBuilders
         {
             return new Audio
             {
-                AudioId = _audioId,
+                AudioId = _audioId
             };
         }
 

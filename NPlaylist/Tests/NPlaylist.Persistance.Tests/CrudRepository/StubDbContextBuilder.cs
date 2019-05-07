@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using NPlaylist.Persistence.DbModels;
 using NPlaylist.Persistence.Tests.CrudRepository.Stubs;
 
 namespace NPlaylist.Persistence.Tests.CrudRepository

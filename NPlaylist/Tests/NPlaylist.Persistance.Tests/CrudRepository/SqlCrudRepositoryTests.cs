@@ -6,6 +6,7 @@ using Xunit;
 
 namespace NPlaylist.Persistence.Tests.CrudRepository
 {
+    [Trait("Category", "Integration")]
     public class SqlCrudRepositoryTests
     {
         [Fact]

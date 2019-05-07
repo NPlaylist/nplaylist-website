@@ -20,6 +20,7 @@ using NPlaylist.Persistence.AudioEntries;
 using NPlaylist.Services.AudioService;
 using NPlaylist.Authorization;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace NPlaylist
 {
@@ -107,8 +108,21 @@ namespace NPlaylist
 
         private void ConfigureDbContexts(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>();
-            services.AddDbContext<AuthenticationDbContext>();
+            services.AddDbContext<ApplicationDbContext>(optionsBuilder =>
+            {
+                optionsBuilder.UseSqlServer(Configuration.GetConnectionString("ApplicationDbConnection"), options =>
+                {
+                    options.MigrationsHistoryTable("__UsersMigrationsHistory", "Application");
+                });
+            });
+
+            services.AddDbContext<AuthenticationDbContext>(optionsBuilder =>
+            {
+                optionsBuilder.UseSqlServer(Configuration.GetConnectionString("AuthenticationDbConnection"), options =>
+                {
+                    options.MigrationsHistoryTable("__UsersMigrationsHistory", "Authentication");
+                });
+            });
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<AuthenticationDbContext>();
         }

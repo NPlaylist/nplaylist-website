@@ -13,12 +13,14 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.2.4" />
     <PackageReference Include="NSubstitute" Version="4.0.0" />
     <PackageReference Include="FluentAssertions" Version="5.6.0" />
+    <PackageReference Include="EntityFrameworkCoreMock.NSubstitute" Version="1.0.0.25" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="CrudRepository\" />
     <Folder Include="CrudRepository\Stubs\" />
     <Folder Include="EntityBuilders\" />
+    <Folder Include="AudioEntries\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\NPlaylist.Persistence\NPlaylist.Persistence.csproj" />

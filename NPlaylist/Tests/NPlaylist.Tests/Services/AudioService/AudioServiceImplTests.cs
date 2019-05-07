@@ -80,44 +80,55 @@ namespace NPlaylist.Tests.Services.AudioService
         }
 
         [Fact]
-        public async Task GetAudioEntriesRange_CallsAudioRepository()
+        public void GetAudioEntriesRangeAsync_ReturnsOutOfRangeException()
         {
+            var sut = new AudioServiceImplBuilder()
+                .Build();
+
+            Func<Task> action = async ()
+                => await sut.GetAudioEntriesRangeAsync(0, 42, CancellationToken.None);
+            action.Should().Throw<ArgumentOutOfRangeException>();
+        }
+
+        [Fact]
+        public async Task GetAudioEntriesRangeAsync_CallsAudioRepository()
+        {
+            var mapper = Substitute.For<IMapper>();
             var repository = Substitute.For<IAudioEntriesRepository>();
-            var mapper = new MapperBuilder().WithDefaultProfile().Build();
             var sut = new AudioServiceImplBuilder()
                 .WithAudioRepo(repository)
                 .WithMapper(mapper)
                 .Build();
 
-            await sut.GetAudioEntriesAsync(CancellationToken.None);
-            await repository.Received().GetAllAsync(CancellationToken.None);
+            await sut.GetAudioEntriesRangeAsync(2, 1, CancellationToken.None);
+            await repository.Received().GetRangeAsync(1, 1, CancellationToken.None);
         }
 
         [Fact]
-        public async Task GetAudioEntriesRange_CallsAutoMapper()
+        public async Task GetAudioEntriesRangeAsync_CallsAutoMapper()
         {
-            var repo = Substitute.For<IAudioEntriesRepository>();
             var mapper = Substitute.For<IMapper>();
+            var repository = Substitute.For<IAudioEntriesRepository>();
             var sut = new AudioServiceImplBuilder()
-                .WithAudioRepo(repo)
+                .WithAudioRepo(repository)
                 .WithMapper(mapper)
                 .Build();
 
-            await sut.GetAudioEntriesAsync(CancellationToken.None);
+            await sut.GetAudioEntriesRangeAsync(2, 1, CancellationToken.None);
             mapper.ReceivedWithAnyArgs();
         }
 
         [Fact]
-        public async Task GetAudioEntriesRange_ReturnsNonNull()
+        public async Task GetAudioEntriesRangeAsync_ReturnsNonNull()
         {
-            var repo = Substitute.For<IAudioEntriesRepository>();
             var mapper = new MapperBuilder().WithDefaultProfile().Build();
-
+            var repository = Substitute.For<IAudioEntriesRepository>();
             var sut = new AudioServiceImplBuilder()
-                .WithAudioRepo(repo)
+                .WithAudioRepo(repository)
                 .WithMapper(mapper)
                 .Build();
-            var expectedValue = await sut.GetAudioEntriesAsync(CancellationToken.None);
+
+            var expectedValue = await sut.GetAudioEntriesRangeAsync(1, 1, CancellationToken.None);
             expectedValue.Should().NotBeNull();
         }
     }

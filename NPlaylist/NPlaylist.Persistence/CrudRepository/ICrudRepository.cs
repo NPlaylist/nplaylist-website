@@ -8,7 +8,6 @@ namespace NPlaylist.Persistence.CrudRepository
     {
         TEntity GetById(UKey id);
         Task<TEntity> GetByIdAsync(UKey id, CancellationToken ct);
-        Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken ct);
 
         void Add(TEntity element);
         void Remove(TEntity element);

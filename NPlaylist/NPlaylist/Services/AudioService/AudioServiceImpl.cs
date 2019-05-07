@@ -23,10 +23,19 @@ namespace NPlaylist.Services.AudioService
             _audioEntriesRepository = audioEntriesRepository;
         }
 
-        public async Task<IEnumerable<AudioEntryViewModel>> GetAudioEntriesAsync(CancellationToken ct)
+        public async Task<PaginatedList<AudioEntryViewModel>> GetAudioEntriesRangeAsync(int page, int count, CancellationToken ct)
         {
-            var entriesRepo = await _audioEntriesRepository.GetAllAsync(ct);
-            return _mapper.Map<List<AudioEntryViewModel>>(entriesRepo);
+            if (page < 1 || count < 1)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            var totalEntriesCount = await _audioEntriesRepository.CountAsync(ct);
+            var entriesRepo = await _audioEntriesRepository.GetRangeAsync((page - 1) * count, count, ct);
+            var source = _mapper.Map<List<AudioEntryViewModel>>(entriesRepo) 
+                         ?? new List<AudioEntryViewModel>();
+
+            return new PaginatedList<AudioEntryViewModel>(source, totalEntriesCount, page, count);
         }
     
         public Task<Audio> GetAudioAsync(Guid id, CancellationToken ct)

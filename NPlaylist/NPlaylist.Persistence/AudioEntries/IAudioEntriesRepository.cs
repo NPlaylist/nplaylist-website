@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using NPlaylist.Persistence.CrudRepository;
@@ -10,5 +11,7 @@ namespace NPlaylist.Persistence.AudioEntries
     {
         Task<bool> EntryExistsAsync(Guid audioId, CancellationToken ct);
         Task<Audio> GetAudioIncludingMetaAsync(Guid audioId, CancellationToken ct);
+        Task<int> CountAsync(CancellationToken ct);
+        Task<IEnumerable<Audio>> GetRangeAsync(int start, int count, CancellationToken ct);
     }
 }

@@ -1,7 +1,11 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using NPlaylist.Persistence;
+using NPlaylist.Persistence.AudioEntries;
 using NPlaylist.Persistence.CrudRepository;
 using NPlaylist.Persistence.DbModels;
 
@@ -13,10 +17,9 @@ namespace NPlaylist.Persistence.AudioEntries
         {
         }
 
-        public async Task<bool> EntryExistsAsync(Guid audioId, CancellationToken ct)
+        public Task<bool> EntryExistsAsync(Guid audioId, CancellationToken ct)
         {
-            var entity = await GetByIdAsync(audioId, ct);
-            return entity != null;
+            return _dbSet.AnyAsync(x => x.AudioId == audioId, ct);
         }
 
         public Task<Audio> GetAudioIncludingMetaAsync(Guid audioId, CancellationToken ct)
@@ -24,6 +27,21 @@ namespace NPlaylist.Persistence.AudioEntries
             return _dbSet
                 .Include(x => x.Meta)
                 .FirstOrDefaultAsync(x => x.AudioId == audioId, ct);
+        }
+
+        public async Task<int> CountAsync(CancellationToken ct)
+        {
+            return await _dbSet.CountAsync(ct);
+        }
+
+        public async Task<IEnumerable<Audio>> GetRangeAsync(int start, int count, CancellationToken ct)
+        {
+            return await _dbSet
+                .Include(e => e.Meta)
+                .Skip(start)
+                .Take(count)
+                .AsNoTracking()
+                .ToListAsync(ct);
         }
     }
 }

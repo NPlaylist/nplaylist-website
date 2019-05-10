@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -107,8 +107,21 @@ namespace NPlaylist
 
         private void ConfigureDbContexts(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>();
-            services.AddDbContext<AuthenticationDbContext>();
+            services.AddDbContext<ApplicationDbContext>(optionsBuilder =>
+            {
+                optionsBuilder.UseSqlServer(Configuration.GetConnectionString("ApplicationDbConnection"), options =>
+                {
+                    options.MigrationsHistoryTable("__UsersMigrationsHistory", "Application");
+                });
+            });
+
+            services.AddDbContext<AuthenticationDbContext>(optionsBuilder =>
+            {
+                optionsBuilder.UseSqlServer(Configuration.GetConnectionString("AuthenticationDbConnection"), options =>
+                {
+                    options.MigrationsHistoryTable("__UsersMigrationsHistory", "Authentication");
+                });
+            });
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<AuthenticationDbContext>();
         }

@@ -1,26 +1,26 @@
-﻿using Microsoft.AspNetCore.Builder;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using NPlaylist.Authentication;
-using NPlaylist.Infrastructure.System;
-using System.IO;
-using AutoMapper;
+using NPlaylist.Authorization;
 using NPlaylist.Business;
-using NPlaylist.Business.Audio;
+using NPlaylist.Business.AudioLogic;
 using NPlaylist.Business.LocalRepository;
 using NPlaylist.Business.MetaTags;
 using NPlaylist.Business.Providers;
 using NPlaylist.Business.TagLibWrapper;
+using NPlaylist.Infrastructure.System;
 using NPlaylist.Persistence;
 using NPlaylist.Persistence.AudioEntries;
-using NPlaylist.Services.AudioService;
-using NPlaylist.Authorization;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
+using NPlaylist.Persistence.AudioMetaEntries;
+using System.IO;
 
 namespace NPlaylist
 {
@@ -99,8 +99,8 @@ namespace NPlaylist
 
             services.AddScoped<IAudioEntriesRepository, SqlAudioEntriesRepository>();
             services.AddScoped<IAudioLocalRepository, AudioLocalRepositoryImpl>();
-            services.AddScoped<Services.AudioService.IAudioService, Services.AudioService.AudioServiceImpl>();
-            services.AddScoped<Business.Audio.IAudioService,Business.Audio.AudioServiceImpl >();
+            services.AddScoped<IAudioService, AudioServiceImpl >();
+            services.AddScoped<IAudioMetaEntriesRepository, SqlAudioMetaEntriesRepository>();
 
             services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

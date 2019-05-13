@@ -1,4 +1,4 @@
-﻿@model PaginatedList<NPlaylist.ViewModels.AudioEntryViewModel>
+﻿@model NPlaylist.ViewModels.Audio.AudioPaginatedListViewModel
 @{
     ViewBag.Title = "Audio";
 }
@@ -8,7 +8,7 @@
 <p>
     <a asp-action="Upload" class="btn btn-default">Upload New</a>
 </p>
-@if (Model.Any())
+@if (Model.Items.Any())
 {
     <table class="table">
         <thead>
@@ -23,7 +23,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Items)
         {
             <tr>
                 <td>

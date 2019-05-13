@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using NPlaylist.Persistence.DbModels;
 
 namespace NPlaylist.Persistence.Tests.EntityBuilders

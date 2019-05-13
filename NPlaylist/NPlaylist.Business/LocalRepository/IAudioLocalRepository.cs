@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using NPlaylist.Business.Audio;
+using NPlaylist.Business.AudioLogic;
 
 namespace NPlaylist.Business.LocalRepository
 {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace NPlaylist.ViewModels
+namespace NPlaylist.ViewModels.Audio
 {
-    public class AudioEntryViewModel
+    public class AudioIndexViewModel
     {
         public Guid AudioId { get; set; }
         [Display(Name = "Full Name")]

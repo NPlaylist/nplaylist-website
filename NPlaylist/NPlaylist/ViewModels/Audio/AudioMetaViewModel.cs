@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace NPlaylist.Models.Audio
+namespace NPlaylist.ViewModels.Audio
 {
     public class AudioMetaViewModel
     {

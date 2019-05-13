@@ -1,17 +1,17 @@
-using FluentAssertions;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using NPlaylist.Models.Audio;
-using NPlaylist.Persistence.DbModels;
-using NPlaylist.Persistence.Tests.EntityBuilders;
-using NPlaylist.Services.AudioService;
-using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentAssertions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using NPlaylist.Business.AudioLogic;
+using NPlaylist.Persistence.DbModels;
+using NPlaylist.Persistence.Tests.EntityBuilders;
+using NPlaylist.ViewModels.Audio;
+using NSubstitute;
 using Xunit;
 
 namespace NPlaylist.Tests.Controllers
@@ -21,8 +21,7 @@ namespace NPlaylist.Tests.Controllers
         [Fact]
         public async Task Index_ExpectedNotNull_ReturnsViewResult()
         {
-            var service = Substitute.For<IAudioService>();
-            var controller = new AudioControllerBuilder().WithAudioService(service)
+            var controller = new AudioControllerBuilder()
                 .Build();
 
             var result = await controller.Index(CancellationToken.None) as ViewResult;
@@ -33,8 +32,7 @@ namespace NPlaylist.Tests.Controllers
         [Fact]
         public void Index_ExpectedException_ReturnsOutOfRangeException()
         {
-            var service = Substitute.For<IAudioService>();
-            var controller = new AudioControllerBuilder().WithAudioService(service)
+            var controller = new AudioControllerBuilder()
                 .Build();
 
             Func<Task> result = async ()
@@ -42,7 +40,7 @@ namespace NPlaylist.Tests.Controllers
 
             result.Should().Throw<ArgumentOutOfRangeException>();
         }
-      
+
         [Fact]
         public async Task EditGet_NoAudios_ReturnsNotFoundHttpCode()
         {
@@ -106,7 +104,7 @@ namespace NPlaylist.Tests.Controllers
                 .Build();
             var sutView = await sut.Edit(audio.AudioId, CancellationToken.None) as ViewResult;
 
-            var actual = (sutView.Model as AudioViewModel).AudioId;
+            var actual = ((AudioViewModel)sutView.Model).AudioId;
             actual.Should().Be(audio.AudioId);
         }
 

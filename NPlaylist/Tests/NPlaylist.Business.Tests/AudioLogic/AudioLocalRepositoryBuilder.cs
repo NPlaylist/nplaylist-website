@@ -2,7 +2,7 @@
 using NPlaylist.Infrastructure.System;
 using NSubstitute;
 
-namespace NPlaylist.Business.Tests.Audio
+namespace NPlaylist.Business.Tests.AudioLogic
 {
     public class AudioLocalRepositoryBuilder
     {

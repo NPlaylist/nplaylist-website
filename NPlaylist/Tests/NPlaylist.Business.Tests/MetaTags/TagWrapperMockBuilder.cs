@@ -14,7 +14,7 @@ namespace NPlaylist.Business.Tests.MetaTags
         {
             _tagLibWrapperMock = Substitute.For<ITagLibWrapper>();
             _fileMock = Substitute.For<File>("Foo");
-            _tagMock = Substitute.For<TagLib.Tag>();
+            _tagMock = Substitute.For<Tag>();
         }
 
         public ITagLibWrapper Build()

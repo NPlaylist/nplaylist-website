@@ -1,12 +1,13 @@
-﻿using NPlaylist.Business.Audio;
+﻿using NPlaylist.Business.AudioLogic;
 using NPlaylist.Business.LocalRepository;
 using NPlaylist.Business.MetaTags;
 using NPlaylist.Business.Providers;
 using NPlaylist.Infrastructure.System;
 using NPlaylist.Persistence.AudioEntries;
+using NPlaylist.Persistence.AudioMetaEntries;
 using NSubstitute;
 
-namespace NPlaylist.Business.Tests.Audio
+namespace NPlaylist.Business.Tests.AudioLogic
 {
     public class AudioServiceBuilder
     {
@@ -15,6 +16,7 @@ namespace NPlaylist.Business.Tests.Audio
         private IAudioLocalRepository _localAudioRepository;
         private IPathProvider _pathProvider;
         private ITagsProvider _tagsProvider;
+        private IAudioMetaEntriesRepository _audioMetaEntriesRepository;
 
         public AudioServiceBuilder()
         {
@@ -23,6 +25,7 @@ namespace NPlaylist.Business.Tests.Audio
             _localAudioRepository = Substitute.For<IAudioLocalRepository>();
             _pathProvider = Substitute.For<IPathProvider>();
             _tagsProvider = Substitute.For<ITagsProvider>();
+            _audioMetaEntriesRepository = Substitute.For<IAudioMetaEntriesRepository>();
         }
 
         public AudioServiceImpl Build()
@@ -32,12 +35,19 @@ namespace NPlaylist.Business.Tests.Audio
                 _localAudioRepository,
                 _audioEntriesRepository,
                 _tagsProvider,
-                _dateTimeWrapper);
+                _dateTimeWrapper,
+                _audioMetaEntriesRepository);
         }
 
         public AudioServiceBuilder WithAudioEntriesRepo(IAudioEntriesRepository audioEntriesRepo)
         {
             _audioEntriesRepository = audioEntriesRepo;
+            return this;
+        }
+
+        public AudioServiceBuilder WithAudioMetaEntriesRepo(IAudioMetaEntriesRepository audioMetaEntriesRepo)
+        {
+            _audioMetaEntriesRepository = audioMetaEntriesRepo;
             return this;
         }
 

@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 using NPlaylist.Attributes;
 
-namespace NPlaylist.ViewModels
+namespace NPlaylist.ViewModels.Audio
 {
     public class AudioUploadViewModel
     {

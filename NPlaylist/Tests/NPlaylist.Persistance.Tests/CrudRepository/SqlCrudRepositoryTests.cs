@@ -1,7 +1,7 @@
-﻿using FluentAssertions;
-using NPlaylist.Persistence.Tests.CrudRepository.Stubs;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using FluentAssertions;
+using NPlaylist.Persistence.Tests.CrudRepository.Stubs;
 using Xunit;
 
 namespace NPlaylist.Persistence.Tests.CrudRepository
@@ -40,7 +40,7 @@ namespace NPlaylist.Persistence.Tests.CrudRepository
         }
 
         [Fact]
-        public void Add_AddsAsExpected()
+        public async Task AddAsync_AddsAsExpected()
         {
             using (var connection = new DbConnection())
             {
@@ -49,8 +49,8 @@ namespace NPlaylist.Persistence.Tests.CrudRepository
                 using (var context = dbContextBuilder.Build())
                 {
                     var sut = new StubCrudRepository(context);
-                    sut.Add(new StubDbModel());
-                    sut.Save();
+                    await sut.AddAsync(new StubDbModel(), CancellationToken.None);
+                    await sut.SaveAsync(CancellationToken.None);
                 }
 
                 using (var context = dbContextBuilder.Build())
@@ -103,27 +103,6 @@ namespace NPlaylist.Persistence.Tests.CrudRepository
                 using (var context = dbContextBuilder.Build())
                 {
                     context.StubDbModels.Find(model.Id).Data.Should().Be(1);
-                }
-            }
-        }
-
-        [Fact]
-        public async Task SaveAsync_SavesAsExpected()
-        {
-            using (var connection = new DbConnection())
-            {
-                var dbContextBuilder = new StubDbContextBuilder(connection.DbOptions);
-
-                using (var context = dbContextBuilder.Build())
-                {
-                    var sut = new StubCrudRepository(context);
-                    sut.Add(new StubDbModel());
-                    await sut.SaveAsync(CancellationToken.None);
-                }
-
-                using (var context = dbContextBuilder.Build())
-                {
-                    context.StubDbModels.Should().NotBeEmpty();
                 }
             }
         }

@@ -1,0 +1,66 @@
+﻿@model NPlaylist.ViewModels.Playlist.PlaylistPaginatedListViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>All playlists</h2>
+
+<p>
+    <a asp-action="Create">Create New Playlist</a>
+</p>
+@if (Model.Items.Any())
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Short Description</th>
+            <th>Created on</th>
+            <th>Total Entries</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShortDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UtcDateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EntriesCount)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new {id = item.PlaylistId}) |
+                    @Html.ActionLink("Details", "Details", new {id = item.PlaylistId}) |
+                    @Html.ActionLink("Delete", "Delete", new {id = item.PlaylistId})
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageIndex - 1)"
+       class="btn btn-default @prevDisabled">
+        Previous
+    </a>
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageIndex + 1)"
+       class="btn btn-default @nextDisabled">
+        Next
+    </a>
+}
+else
+{
+    <h2>No entries found</h2>
+}

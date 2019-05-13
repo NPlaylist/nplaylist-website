@@ -4,12 +4,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using NPlaylist.Authentication;
 using NPlaylist.Authorization;
 using NPlaylist.Business;
+using NPlaylist.Business.AudioLogic;
 using NPlaylist.Business.LocalRepository;
 using NPlaylist.Business.MetaTags;
 using NPlaylist.Business.Providers;
@@ -19,7 +21,6 @@ using NPlaylist.Persistence;
 using NPlaylist.Persistence.AudioEntries;
 using NPlaylist.Persistence.AudioMetaEntries;
 using System.IO;
-using NPlaylist.Business.AudioLogic;
 
 namespace NPlaylist
 {

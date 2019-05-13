@@ -65,10 +65,7 @@ namespace NPlaylist.Controllers
         [Authorize]
         public async Task<IActionResult> Delete(Guid id, CancellationToken ct)
         {
-            if (ModelState.IsValid)
-            {
-                await _audioService.DeleteAudioAsync(id, ct);
-            }
+            await _audioService.DeleteAudioAsync(id, ct);
 
             return RedirectToAction("Index");
         }

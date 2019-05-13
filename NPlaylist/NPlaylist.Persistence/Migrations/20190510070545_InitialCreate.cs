@@ -22,6 +22,21 @@ namespace NPlaylist.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PlaylistEntries",
+                columns: table => new
+                {
+                    PlaylistId = table.Column<Guid>(nullable: false),
+                    OwnerId = table.Column<Guid>(nullable: false),
+                    UtcDateTime = table.Column<DateTime>(nullable: false),
+                    Title = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlaylistEntries", x => x.PlaylistId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AudioEntries",
                 columns: table => new
                 {
@@ -42,16 +57,51 @@ namespace NPlaylist.Persistence.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "AudioPlaylists",
+                columns: table => new
+                {
+                    AudioId = table.Column<Guid>(nullable: false),
+                    PlaylistId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AudioPlaylists", x => new { x.AudioId, x.PlaylistId });
+                    table.ForeignKey(
+                        name: "FK_AudioPlaylists_AudioEntries_AudioId",
+                        column: x => x.AudioId,
+                        principalTable: "AudioEntries",
+                        principalColumn: "AudioId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AudioPlaylists_PlaylistEntries_PlaylistId",
+                        column: x => x.PlaylistId,
+                        principalTable: "PlaylistEntries",
+                        principalColumn: "PlaylistId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AudioEntries_MetaAudioMetaId",
                 table: "AudioEntries",
                 column: "MetaAudioMetaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AudioPlaylists_PlaylistId",
+                table: "AudioPlaylists",
+                column: "PlaylistId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AudioPlaylists");
+
+            migrationBuilder.DropTable(
                 name: "AudioEntries");
+
+            migrationBuilder.DropTable(
+                name: "PlaylistEntries");
 
             migrationBuilder.DropTable(
                 name: "AudioMetaEntries");

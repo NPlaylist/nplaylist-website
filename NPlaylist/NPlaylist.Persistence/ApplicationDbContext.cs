@@ -11,5 +11,12 @@ namespace NPlaylist.Persistence
 
         public virtual DbSet<Audio> AudioEntries { get; set; }
         public virtual DbSet<AudioMeta> AudioMetaEntries { get; set; }
+        public virtual DbSet<Playlist> PlaylistEntries { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<AudioPlaylists>()
+                .HasKey(t => new { t.AudioId, t.PlaylistId });
+        }
     }
 }

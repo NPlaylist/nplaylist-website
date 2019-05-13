@@ -46,9 +46,7 @@ namespace NPlaylist.Business.AudioLogic
             try
             {
                 RemoveAudioFileFromLocal(id);
-
                 await RemoveAudioFromDb(ct, audio);
-
                 await RemoveAudioTagsFromDb(ct, audio);
             }
             catch (DbUpdateConcurrencyException)

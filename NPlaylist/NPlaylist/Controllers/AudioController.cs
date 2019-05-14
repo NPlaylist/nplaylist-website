@@ -34,7 +34,7 @@ namespace NPlaylist.Controllers
         public async Task<IActionResult> Index(CancellationToken ct, int page = 1)
         {
             if (page < 1) throw new ArgumentOutOfRangeException(nameof(page));
-            const int defaultCount = 1;
+            const int defaultCount = 10;
 
             var audioPaginationDto = await _audioService.GetAudioPaginationAsync(page, defaultCount, ct);
             var paginationViewModel = _mapper.Map<AudioPaginatedListViewModel>(audioPaginationDto);

@@ -13,5 +13,6 @@ namespace NPlaylist.Persistence.AudioEntries
         Task<Audio> GetAudioIncludingMetaAsync(Guid audioId, CancellationToken ct);
         Task<int> CountAsync(CancellationToken ct);
         Task<IEnumerable<Audio>> GetRangeAsync(int start, int count, CancellationToken ct);
+        Task<IEnumerable<Audio>> GetAudioEntriesByPlaylistAsync(Guid playlistId, CancellationToken ct);
     }
 }

@@ -41,5 +41,14 @@ namespace NPlaylist.Persistence.AudioEntries
                 .AsNoTracking()
                 .ToListAsync(ct);
         }
+
+        public async Task<IEnumerable<Audio>> GetAudioEntriesByPlaylistAsync(Guid playlistId, CancellationToken ct)
+        {
+            return await _dbSet
+                .Include(e => e.AudioPlaylists)
+                .Where(e => e.AudioPlaylists.Any(ap => ap.PlaylistId == playlistId))
+                .Include(e => e.Meta)
+                .ToListAsync(ct);
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using NPlaylist.Business.AudioLogic;
+using NPlaylist.Business.PlaylistLogic;
 using NPlaylist.Models;
 using NPlaylist.Persistence.DbModels;
 using NPlaylist.ViewModels;
@@ -20,6 +21,7 @@ namespace NPlaylist
             CreateMap<AudioMeta, AudioMetaViewModel>().ReverseMap();
             CreateMap<Audio, AudioViewModel>().ReverseMap();
             CreateMap<AudioPaginationDto, AudioPaginatedListViewModel>();
+            CreateMap<Playlist, PlaylistCreateDto>().ReverseMap();
         }
     }
 }

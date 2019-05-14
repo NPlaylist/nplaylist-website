@@ -6,11 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="TagLibSharp" Version="2.2.0-beta" />
+  <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\NPlaylist.Infrastructure\NPlaylist.Infrastructure.csproj" />
     <ProjectReference Include="..\NPlaylist.Persistence\NPlaylist.Persistence.csproj" />
   </ItemGroup>
-
 </Project>

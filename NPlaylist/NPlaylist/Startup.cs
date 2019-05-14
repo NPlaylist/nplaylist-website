@@ -14,12 +14,14 @@ using NPlaylist.Business;
 using NPlaylist.Business.AudioLogic;
 using NPlaylist.Business.LocalRepository;
 using NPlaylist.Business.MetaTags;
+using NPlaylist.Business.PlaylistLogic;
 using NPlaylist.Business.Providers;
 using NPlaylist.Business.TagLibWrapper;
 using NPlaylist.Infrastructure.System;
 using NPlaylist.Persistence;
 using NPlaylist.Persistence.AudioEntries;
 using NPlaylist.Persistence.AudioMetaEntries;
+using NPlaylist.Persistence.PlaylistEntries;
 using System.IO;
 
 namespace NPlaylist
@@ -90,6 +92,8 @@ namespace NPlaylist
             services.AddScoped<IPathWrapper, PathWrapper>();
             services.AddScoped<IFileStreamFactory, FileStreamImpl>();
             services.AddScoped<IFileWrapper, FileWrapper>();
+            services.AddScoped<IPlaylistEntriesRepository, PlaylistEntriesRepository>();
+            services.AddScoped<IPlaylistService, PlaylistServiceImpl>();
             services.AddScoped<IPathProvider, LocalPathProvider>(a =>
             {
                 var hostingEnv = a.GetService<IHostingEnvironment>();
@@ -99,7 +103,7 @@ namespace NPlaylist
 
             services.AddScoped<IAudioEntriesRepository, SqlAudioEntriesRepository>();
             services.AddScoped<IAudioLocalRepository, AudioLocalRepositoryImpl>();
-            services.AddScoped<IAudioService, AudioServiceImpl >();
+            services.AddScoped<IAudioService, AudioServiceImpl>();
             services.AddScoped<IAudioMetaEntriesRepository, SqlAudioMetaEntriesRepository>();
 
             services.AddAutoMapper();

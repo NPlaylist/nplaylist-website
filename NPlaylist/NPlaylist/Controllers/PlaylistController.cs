@@ -4,11 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using NPlaylist.Business.PlaylistLogic;
 using NPlaylist.ViewModels.Playlist;
 using System;
-using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 
 namespace NPlaylist.Controllers
 {
@@ -29,33 +27,11 @@ namespace NPlaylist.Controllers
         public async Task<IActionResult> Index(CancellationToken ct, int page = 1)
         {
             if (page < 1) throw new ArgumentOutOfRangeException(nameof(page));
+            const int defaultCount = 10;
 
-            var entries = new PlaylistPaginatedListViewModel
-            {
-                Items = new List<PlaylistIndexViewModel>
-                {
-                    new PlaylistIndexViewModel
-                    {
-                        PlaylistId = Guid.NewGuid(),
-                        Title = "Foo/Bar",
-                        ShortDescription = "Nothing to do",
-                        UtcDateTime = DateTime.Now,
-                        EntriesCount = 10
-                    },
-                    new PlaylistIndexViewModel
-                    {
-                        PlaylistId = Guid.NewGuid(),
-                        Title = "Test",
-                        ShortDescription = "FooBaz",
-                        UtcDateTime = DateTime.Now,
-                        EntriesCount = 1
-                    }
-                },
-                TotalNbOfPages = 1,
-                PageIndex = 1
-            };
-
-            return View(entries);
+            var playlistPaginationDto = await _playlistService.GetPlaylistPaginationAsync(page, defaultCount, ct);
+            var paginationViewModel = _mapper.Map<PlaylistPaginatedListViewModel>(playlistPaginationDto);
+            return View(paginationViewModel);
         }
 
         [HttpGet]

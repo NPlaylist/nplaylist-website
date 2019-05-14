@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using FluentAssertions;
 using NPlaylist.Business.PlaylistLogic;
 using NPlaylist.Persistence.DbModels;
 using NPlaylist.Persistence.PlaylistEntries;
 using NSubstitute;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -57,6 +59,41 @@ namespace NPlaylist.Business.Tests.PlaylistLogic
             var expectedParameter = mapperMock.Map<Playlist>(playlistDto);
             await sut.CreatePlaylist(playlistDto, CancellationToken.None);
             await playlistRepositoryMock.Received().AddAsync(expectedParameter, CancellationToken.None);
+        }
+
+        [Fact]
+        public void GetPlaylistPaginationAsync_ReturnsOutOfRangeException()
+        {
+            var sut = new PlaylistServiceBuilder()
+                .Build();
+
+            Func<Task> action = async ()
+                => await sut.GetPlaylistPaginationAsync(0, 42, CancellationToken.None);
+            action.Should().Throw<ArgumentOutOfRangeException>();
+        }
+
+        [Fact]
+        public async Task GetPlaylistPaginationAsync_CallsAudioRepository()
+        {
+            var repository = Substitute.For<IPlaylistEntriesRepository>();
+            var sut = new PlaylistServiceBuilder()
+                .WithPlaylistRepository(repository)
+                .Build();
+
+            await sut.GetPlaylistPaginationAsync(2, 1, CancellationToken.None);
+            await repository.Received().GetRangeAsync(1, 1, CancellationToken.None);
+        }
+
+        [Fact]
+        public async Task GetPlaylistPaginationAsync_ReturnsNonNull()
+        {
+            var repository = Substitute.For<IPlaylistEntriesRepository>();
+            var sut = new PlaylistServiceBuilder()
+                .WithPlaylistRepository(repository)
+                .Build();
+
+            var expectedValue = await sut.GetPlaylistPaginationAsync(1, 1, CancellationToken.None);
+            expectedValue.Should().NotBeNull();
         }
     }
 }

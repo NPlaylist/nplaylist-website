@@ -19,7 +19,6 @@
   <ItemGroup>
     <Folder Include="CrudRepository\" />
     <Folder Include="CrudRepository\Stubs\" />
-    <Folder Include="EntityBuilders\" />
     <Folder Include="AudioEntries\" />
   </ItemGroup>
   <ItemGroup>

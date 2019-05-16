@@ -79,5 +79,35 @@ namespace NPlaylist.Persistence.Tests.AudioEntries
             var actual = await sut.GetRangeAsync(1, 2, CancellationToken.None);
             actual.Should().HaveCount(2);
         }
+
+        [Fact]
+        public async Task GetAudioEntriesOfPlaylistAsync_ReturnsExpectedNbOfAudioEntries()
+        {
+            var audios = new[]
+            {
+                new AudioBuilder()
+                    .WithId(0)
+                    .WithAudioPlaylist(new AudioPlaylistsBuilder().WithAudioId(0).WithPlaylistId(0).Build())
+                    .Build(),
+
+                new AudioBuilder()
+                    .WithId(1)
+                    .WithAudioPlaylist(new AudioPlaylistsBuilder().WithAudioId(1).WithPlaylistId(0).Build())
+                    .Build(),
+
+                new AudioBuilder()
+                    .WithId(2)
+                    .WithAudioPlaylist(new AudioPlaylistsBuilder().WithAudioId(2).WithPlaylistId(1).Build())
+                    .Build(),
+            };
+
+            var dbContextMock = new DbContextMock<ApplicationDbContext>(DummyDbOptions);
+            dbContextMock.CreateDbSetMock(x => x.AudioEntries, audios);
+
+            var sut = new SqlAudioEntriesRepository(dbContextMock.Object);
+
+            var actual = await sut.GetAudioEntriesByPlaylistAsync(GuidFactory.MakeFromInt(0), CancellationToken.None);
+            actual.Should().HaveCount(2);
+        }
     }
 }

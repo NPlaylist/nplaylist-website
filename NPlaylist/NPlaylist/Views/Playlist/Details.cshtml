@@ -1,0 +1,93 @@
+﻿@model NPlaylist.ViewModels.Playlist.PlaylistDetailsViewModel;
+@{
+    ViewData["Title"] = "Details";
+}
+<br />
+<div class="row">
+    <div class="col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>Details about playlist:</h4>
+            </div>
+            <div class="panel-body ">
+                <div class="col-md-12">
+                    <dl class="dl-horizontal">
+
+                        <dt>
+                            @Html.LabelFor(model => model.Title, "Title:")
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Title)
+                        </dd>
+
+                        <dt>
+                            @Html.LabelFor(model => model.Description, "Description:")
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Description)
+                        </dd>
+                        <dt>
+                            @Html.LabelFor(model => model.OwnerUsername, "Owner username:")
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.OwnerUsername)
+                        </dd>
+                        <dt>
+                            @Html.LabelFor(model => model.UtcDateTime, "Created:")
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.UtcDateTime)
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>Songs:</h4>
+            </div>
+            <div class="panel-body ">
+                <div class="col-md-12">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Title
+                                </th>
+                                <th>
+                                   Album
+                                </th>
+                                <th>
+                                    Author
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Audios)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Meta.Title)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Meta.Album)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Meta.Author)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

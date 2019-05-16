@@ -20,7 +20,7 @@ namespace NPlaylist.Persistence.Tests.AudioEntries
             var audio = new AudioBuilder().WithId(GuidFactory.MakeFromInt(0)).Build();
 
             var dbContextMock = new DbContextMock<ApplicationDbContext>(DummyDbOptions);
-            var audioEntriesDbSetMock = dbContextMock.CreateDbSetMock(x => x.AudioEntries, new[] { audio });
+            dbContextMock.CreateDbSetMock(x => x.AudioEntries, new[] { audio });
 
             var sut = new SqlAudioEntriesRepository(dbContextMock.Object);
 
@@ -34,7 +34,7 @@ namespace NPlaylist.Persistence.Tests.AudioEntries
             var audio = new AudioBuilder().Build();
 
             var dbContextMock = new DbContextMock<ApplicationDbContext>(DummyDbOptions);
-            var audioEntriesDbSetMock = dbContextMock.CreateDbSetMock(x => x.AudioEntries, new[] { audio });
+            dbContextMock.CreateDbSetMock(x => x.AudioEntries, new[] { audio });
 
             var sut = new SqlAudioEntriesRepository(dbContextMock.Object);
 
@@ -52,7 +52,7 @@ namespace NPlaylist.Persistence.Tests.AudioEntries
             };
 
             var dbContextMock = new DbContextMock<ApplicationDbContext>(DummyDbOptions);
-            var audioEntriesDbSetMock = dbContextMock.CreateDbSetMock(x => x.AudioEntries, audios);
+            dbContextMock.CreateDbSetMock(x => x.AudioEntries, audios);
 
             var sut = new SqlAudioEntriesRepository(dbContextMock.Object);
 
@@ -61,7 +61,7 @@ namespace NPlaylist.Persistence.Tests.AudioEntries
         }
 
         [Fact]
-        public async Task GetRangeAsync_ReturnsExpectedNbOfElemnets()
+        public async Task GetRangeAsync_ReturnsExpectedNbOfElements()
         {
             var audios = new[]
             {
@@ -72,7 +72,7 @@ namespace NPlaylist.Persistence.Tests.AudioEntries
             };
 
             var dbContextMock = new DbContextMock<ApplicationDbContext>(DummyDbOptions);
-            var audioEntriesDbSetMock = dbContextMock.CreateDbSetMock(x => x.AudioEntries, audios);
+            dbContextMock.CreateDbSetMock(x => x.AudioEntries, audios);
 
             var sut = new SqlAudioEntriesRepository(dbContextMock.Object);
 

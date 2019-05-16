@@ -1,7 +1,9 @@
-﻿using NPlaylist.Infrastructure.System;
+﻿using System;
+using NPlaylist.Infrastructure.System;
 using NPlaylist.Persistence.DbModels;
 using NPlaylist.Persistence.PlaylistEntries;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -39,6 +41,28 @@ namespace NPlaylist.Business.PlaylistLogic
             await _playlistRepository.SaveAsync(ct);
         }
 
+        public async Task<PlaylistPaginationDto> GetPlaylistPaginationAsync(int pageIndex, int totalEntriesOnPage, CancellationToken ct)
+        {
+            if (pageIndex < 1 || totalEntriesOnPage < 1)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            var totalEntriesCount = await _playlistRepository.CountAsync(ct);
+            var entries = await _playlistRepository.GetRangeAsync((pageIndex - 1) * totalEntriesOnPage, totalEntriesOnPage, ct);
+
+            var totalPagesCount = (int)Math.Ceiling(totalEntriesCount / (double)totalEntriesOnPage);
+
+            var dto = new PlaylistPaginationDto()
+            {
+                Items = entries.ToList(),
+                PageIndex = pageIndex,
+                TotalNbOfPages = totalPagesCount
+            };
+
+            return dto;
+        }
+        
         public Task<Playlist> GetPlaylistAsync(Guid playlistId, CancellationToken ct)
         {
             return _playlistRepository.GetByIdAsync(playlistId, ct);

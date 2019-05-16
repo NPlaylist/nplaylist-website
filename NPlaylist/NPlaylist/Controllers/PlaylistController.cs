@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NPlaylist.Business.PlaylistLogic;
+using NPlaylist.ViewModels.Audio;
 using NPlaylist.ViewModels.Playlist;
 using System;
 using System.Security.Claims;
@@ -32,6 +33,45 @@ namespace NPlaylist.Controllers
             var playlistPaginationDto = await _playlistService.GetPlaylistPaginationAsync(page, defaultCount, ct);
             var paginationViewModel = _mapper.Map<PlaylistPaginatedListViewModel>(playlistPaginationDto);
             return View(paginationViewModel);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult Details(Guid? id)
+        {
+            var dummyPlaylist = new PlaylistDetailsViewModel
+            {
+                Title = "TestPlaylist",
+                Description = "Playlist created just for test",
+                OwnerUsername = "John Doe",
+                UtcDateTime = DateTime.UtcNow,
+                Audios = new List<AudioViewModel>
+                {
+                    new AudioViewModel
+                    {
+                        AudioId = Guid.NewGuid(),
+                        Path = "dummy path",
+                        Meta = new AudioMetaViewModel
+                        {
+                            Title = "Back in Black",
+                            Author = "AC/DC",
+                            Album = "Unknown"
+                        }
+                    },
+                    new AudioViewModel
+                    {
+                        AudioId = Guid.NewGuid(),
+                        Path = "dummy path2",
+                        Meta = new AudioMetaViewModel
+                        {
+                            Title = "Thunder",
+                            Author = "AC/DC",
+                            Album = "Unknown"
+                        }
+                    }
+                }
+            };
+            return View(dummyPlaylist);
         }
 
         [HttpGet]

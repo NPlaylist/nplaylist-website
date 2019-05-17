@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\NPlaylist.Infrastructure\NPlaylist.Infrastructure.csproj" />
     <ProjectReference Include="..\NPlaylist.Persistence\NPlaylist.Persistence.csproj" />
+    <ProjectReference Include="..\NPlaylist.Authentication\NPlaylist.Authentication.csproj" />
   </ItemGroup>
 
   <ItemGroup>

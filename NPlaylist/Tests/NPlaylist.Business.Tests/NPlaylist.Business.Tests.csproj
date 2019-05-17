@@ -18,6 +18,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\NPlaylist.Business\NPlaylist.Business.csproj" />
     <ProjectReference Include="..\..\NPlaylist\NPlaylist.csproj" />
+    <ProjectReference Include="..\NPlaylist.Persistance.Tests\NPlaylist.Persistence.Tests.csproj" />
+    <ProjectReference Include="..\NPlaylist.Tests\NPlaylist.Tests.csproj" />
   </ItemGroup>
 
   <ItemGroup>

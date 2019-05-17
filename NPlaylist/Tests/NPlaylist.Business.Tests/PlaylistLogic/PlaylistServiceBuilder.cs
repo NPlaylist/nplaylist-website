@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using NPlaylist.Authentication.Users;
 using NPlaylist.Business.PlaylistLogic;
 using NPlaylist.Infrastructure.System;
 using NPlaylist.Persistence.AudioEntries;
@@ -13,6 +14,7 @@ namespace NPlaylist.Business.Tests.PlaylistLogic
         private IMapper _mapper;
         private IPlaylistEntriesRepository _playlistRepository;
         private IAudioEntriesRepository _audioRepository;
+        private IUserRepository _userRepository;
 
         public PlaylistServiceBuilder()
         {
@@ -20,6 +22,7 @@ namespace NPlaylist.Business.Tests.PlaylistLogic
             _mapper = Substitute.For<IMapper>();
             _playlistRepository = Substitute.For<IPlaylistEntriesRepository>();
             _audioRepository = Substitute.For<IAudioEntriesRepository>();
+            _userRepository = Substitute.For<IUserRepository>();
         }
 
         public PlaylistServiceBuilder WithDateTimeWrapper(IDateTimeWrapper dateTimeWrapper)
@@ -40,9 +43,26 @@ namespace NPlaylist.Business.Tests.PlaylistLogic
             return this;
         }
 
+        public PlaylistServiceBuilder WithAudioRepository(IAudioEntriesRepository audioEntriesRepository)
+        {
+            _audioRepository = audioEntriesRepository;
+            return this;
+        }
+
+        public PlaylistServiceBuilder WithUserRepository(IUserRepository userRepository)
+        {
+            _userRepository = userRepository;
+            return this;
+        }
+
         public PlaylistServiceImpl Build()
         {
-            return new PlaylistServiceImpl(_dateTimeWrapper, _mapper, _playlistRepository, _audioRepository);
+            return new PlaylistServiceImpl(
+                _dateTimeWrapper,
+                _mapper,
+                _playlistRepository,
+                _audioRepository,
+                _userRepository);
         }
     }
 }

@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using NPlaylist.Authentication;
+using NPlaylist.Authentication.Users;
 using NPlaylist.Authorization;
 using NPlaylist.Business;
 using NPlaylist.Business.AudioLogic;
@@ -105,6 +106,7 @@ namespace NPlaylist
             services.AddScoped<IAudioLocalRepository, AudioLocalRepositoryImpl>();
             services.AddScoped<IAudioService, AudioServiceImpl>();
             services.AddScoped<IAudioMetaEntriesRepository, SqlAudioMetaEntriesRepository>();
+            services.AddScoped<IUserRepository, IdentityUserRepository>();
 
             services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -127,7 +129,8 @@ namespace NPlaylist
                     options.MigrationsHistoryTable("__UsersMigrationsHistory", "Authentication");
                 });
             });
-            services.AddDefaultIdentity<IdentityUser>()
+            services
+                .AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<AuthenticationDbContext>();
         }
 

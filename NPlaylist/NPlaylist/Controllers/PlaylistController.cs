@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NPlaylist.Business.PlaylistLogic;
-using NPlaylist.ViewModels.Audio;
 using NPlaylist.ViewModels.Playlist;
 using System;
-using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,43 +35,18 @@ namespace NPlaylist.Controllers
             return View(paginationViewModel);
         }
 
-        [AllowAnonymous]
         [HttpGet]
-        public IActionResult Details(Guid? id)
+        [AllowAnonymous]
+        public async Task<IActionResult> Details(Guid id, CancellationToken ct)
         {
-            var dummyPlaylist = new PlaylistDetailsViewModel
+            var playlistDetailsDto = await _playlistService.GetPlaylistDetails(id, ct);
+            if (playlistDetailsDto == null)
             {
-                Title = "TestPlaylist",
-                Description = "Playlist created just for test",
-                OwnerUsername = "John Doe",
-                UtcDateTime = DateTime.UtcNow,
-                Audios = new List<AudioViewModel>
-                {
-                    new AudioViewModel
-                    {
-                        AudioId = Guid.NewGuid(),
-                        Path = "dummy path",
-                        Meta = new AudioMetaViewModel
-                        {
-                            Title = "Back in Black",
-                            Author = "AC/DC",
-                            Album = "Unknown"
-                        }
-                    },
-                    new AudioViewModel
-                    {
-                        AudioId = Guid.NewGuid(),
-                        Path = "dummy path2",
-                        Meta = new AudioMetaViewModel
-                        {
-                            Title = "Thunder",
-                            Author = "AC/DC",
-                            Album = "Unknown"
-                        }
-                    }
-                }
-            };
-            return View(dummyPlaylist);
+                return PlaylistNotFound();
+            }
+
+            var playlistDetailsViewModel = _mapper.Map<PlaylistDetailsViewModel>(playlistDetailsDto);
+            return View(playlistDetailsViewModel);
         }
 
         [HttpGet]
@@ -93,6 +67,15 @@ namespace NPlaylist.Controllers
             }
 
             return View();
+        }
+
+        private IActionResult PlaylistNotFound()
+        {
+            return new ViewResult
+            {
+                ViewName = "PlaylistNotFound",
+                StatusCode = StatusCodes.Status404NotFound
+            };
         }
     }
 }

@@ -7,8 +7,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using System;
 using NPlaylist.Persistence.AudioEntries;
+using NPlaylist.Authentication.Users;
 
 namespace NPlaylist.Business.PlaylistLogic
 {
@@ -18,17 +18,20 @@ namespace NPlaylist.Business.PlaylistLogic
         private readonly IMapper _mapper;
         private readonly IPlaylistEntriesRepository _playlistRepository;
         private readonly IAudioEntriesRepository _audioRepository;
+        private readonly IUserRepository _userRepository;
 
         public PlaylistServiceImpl(
             IDateTimeWrapper dateTimeWrapper,
             IMapper mapper,
             IPlaylistEntriesRepository playlistRepository,
-            IAudioEntriesRepository audioRepository)
+            IAudioEntriesRepository audioRepository,
+            IUserRepository userRepository)
         {
             _dateTimeWrapper = dateTimeWrapper;
             _mapper = mapper;
             _playlistRepository = playlistRepository;
             _audioRepository = audioRepository;
+            _userRepository = userRepository;
         }
 
         public async Task CreatePlaylist(PlaylistCreateDto playlistDto, CancellationToken ct)
@@ -62,15 +65,23 @@ namespace NPlaylist.Business.PlaylistLogic
 
             return dto;
         }
-        
-        public Task<Playlist> GetPlaylistAsync(Guid playlistId, CancellationToken ct)
-        {
-            return _playlistRepository.GetByIdAsync(playlistId, ct);
-        }
 
-        public Task<IEnumerable<Audio>> GetAudiosByPlaylistAsync(Guid playlistId, CancellationToken ct)
+        public async Task<PlaylistDetailsDto> GetPlaylistDetails(Guid playlistId, CancellationToken ct)
         {
-            return _audioRepository.GetAudioEntriesByPlaylistAsync(playlistId, ct);
+            var playlist = await _playlistRepository.GetByIdAsync(playlistId, ct);
+            if (playlist == null)
+            {
+                return null;
+            }
+
+            var audios = await _audioRepository.GetAudioEntriesByPlaylistAsync(playlistId, ct);
+            var owner = await _userRepository.FindByIdAsync(playlist.OwnerId.ToString(), ct);
+
+            var playlistDto = _mapper.Map<PlaylistDetailsDto>(playlist);
+            playlistDto.AudioEntries = audios;
+            playlistDto.OwnerUsername = owner?.UserName;
+
+            return playlistDto;
         }
     }
 }

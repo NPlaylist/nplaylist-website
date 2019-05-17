@@ -28,8 +28,12 @@ namespace NPlaylist
             CreateMap<AudioMeta, AudioMetaViewModel>().ReverseMap();
             CreateMap<Audio, AudioViewModel>().ReverseMap();
             CreateMap<AudioPaginationDto, AudioPaginatedListViewModel>();
+
             CreateMap<Playlist, PlaylistCreateDto>().ReverseMap();
             CreateMap<PlaylistPaginationDto, PlaylistPaginatedListViewModel>();
+
+            CreateMap<Playlist, PlaylistDetailsDto>();
+            CreateMap<PlaylistDetailsDto, PlaylistDetailsViewModel>();
         }
     }
 }

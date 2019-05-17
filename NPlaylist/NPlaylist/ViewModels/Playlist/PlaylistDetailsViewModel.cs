@@ -11,6 +11,6 @@ namespace NPlaylist.ViewModels.Playlist
         public DateTime UtcDateTime { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public ICollection<AudioViewModel> Audios { get; set; }
+        public ICollection<AudioViewModel> AudioEntries { get; set; }
     }
 }

@@ -23,7 +23,7 @@ namespace NPlaylist.Persistence.CrudRepository
 
         public Task<TEntity> GetByIdAsync(UKey id, CancellationToken ct)
         {
-            return _dbSet.FindAsync(id, ct);
+            return _dbSet.FindAsync(new object[] { id }, ct);
         }
 
         public Task AddAsync(TEntity element, CancellationToken ct)

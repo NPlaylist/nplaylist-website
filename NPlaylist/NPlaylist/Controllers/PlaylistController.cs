@@ -5,6 +5,7 @@ using NPlaylist.Business.PlaylistLogic;
 using NPlaylist.ViewModels.Audio;
 using NPlaylist.ViewModels.Playlist;
 using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
